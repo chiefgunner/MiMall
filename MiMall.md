@@ -44,11 +44,15 @@ git push --tags                        //上传所有标签
 git pust <remote> <branch> --force     //强推
 ```
 ### 撤销
+
 ```git
 git reset --hard HEAD                  //
 git checkout HEAD <file>               //撤销指定的未提交文件的修改内容
 git revert <commit>                    //撤销指定的提交（记录日志）
 ```
+
+### 基础流程
+
 ```git
 //git 初始化
 //1、克隆项目
@@ -62,7 +66,10 @@ git add -A
 git commit -m 'init'
 git remote add origin git@github.com:chiefgunner/git.git
 git push -u origin master
+```
+### 分支流程
 
+```git
 //创建分支
 git checkout -b branch-name     //创建 branch-name 分支
 git add -A
