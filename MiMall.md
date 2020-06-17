@@ -49,6 +49,31 @@ git reset --hard HEAD                  //
 git checkout HEAD <file>               //撤销指定的未提交文件的修改内容
 git revert <commit>                    //撤销指定的提交（记录日志）
 ```
+```git
+//git 初始化
+//1、克隆项目
+git clone git@github.com:chiefgunner/git.git
+git add -A
+git commit -m 'init'
+git push
+//2、本地创建项目推送到远端
+git init
+git add -A
+git commit -m 'init'
+git remote add origin git@github.com:chiefgunner/git.git
+git push -u origin master
+
+//创建分支
+git checkout -b branch-name     //创建 branch-name 分支
+git add -A
+git commit -m 'vranch-name'
+git push origin branch-name     //推送分支
+
+//合并分支
+git checkout master
+git merge branch-name
+git push                        //推送 master 分支
+```
 ## VueCli 安装
 ```bash
 npm i -g @vue/cli
