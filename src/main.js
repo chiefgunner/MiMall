@@ -6,10 +6,19 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// mockjs 开关
+let mock = false
+if (mock) {
+  require('./mock/api')
+}
 // 接口基本设置
-// baseUrl 根据前端跨域做调整
-axios.defaults.baseUrl = '/api'
+// baseURL 根据前端跨域做调整
+// axios.defaults.baseURL = '/api'
 axios.defaults.timeout = 7000
+
+// axios.defaults.baseURL = '' // 本地mock
+// axios.defaults.baseURL = 'https://reqres.in/api/'
+axios.defaults.baseURL = '/api' // mockjs
 
 // 接口拦截 interceptors
 axios.interceptors.response.use(function (response) {
