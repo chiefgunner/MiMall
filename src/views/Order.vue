@@ -9,7 +9,7 @@
 <script>
 import OrderHeader from '@/components/OrderHeader.vue'
 import NavFooter from '@/components/NavFooter.vue'
-import Storage from '@/storage/'
+// import Storage from '@/storage/'
 
 export default {
   name: 'order',
