@@ -32,7 +32,7 @@ export default {
     // Storage.clear(123456, 'order')
     // Storage.setItem(1, 'goods_1', 'order')
     // Storage.clear('order')
-    Storage.getStorage()
+    // Storage.getStorage()
   }
 }
 </script>
