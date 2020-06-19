@@ -58,6 +58,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/base.scss';
+@import '@/assets/scss/mixin.scss';
 .header{
   .nav-topbar{
     height: 39px;
@@ -65,9 +66,7 @@ export default {
     background-color: #333333;
     color: #B0B0B0;
     .container{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      @include flex();
       a{
         display: inline-block;
         margin-right: 17px;
@@ -79,12 +78,8 @@ export default {
         text-align: center;
         color: #fff;
         .icon-cart{
-          display: inline-block;
-          width: 16px;
-          height: 12px;
+          @include bigImg(16px,12px,'/imgs/icon-cart-checked.png');
           margin-right: 4px;
-          background: url('/imgs/icon-cart-checked.png') no-repeat center;
-          background-size:contain;
         }
       }
     }
@@ -92,9 +87,7 @@ export default {
   .nav-header{
     .container{
       height: 112px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      @include flex();
       .header-logo{
         display:inline-block;
         background-color: #FF6600;
@@ -107,19 +100,12 @@ export default {
           &:before{
             content: "";
             display:inline-block;
-            width: 55px;
-            height: 55px;
-            background:url('/imgs/mi-logo.png') no-repeat center;
-            background-size: 55px;
+            @include bigImg(55px,55px,'/imgs/mi-logo.png',55px);
             transition: margin .2s;
           }
           &:after{
             content: "";
-            display:inline-block;
-            width: 55px;
-            height: 55px;
-            background:url('/imgs/mi-home.png') no-repeat center;
-            background-size: 55px;
+            @include bigImg(55px,55px,'/imgs/mi-home.png',55px);
           }
           &:hover:before{
             margin-left: -55px;
@@ -162,11 +148,7 @@ export default {
             box-sizing: border-box;
           }
           a{
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            background:url('/imgs/icon-search.png') no-repeat center;
-            background-size: contain;
+            @include bigImg(18px,18px,'/imgs/icon-search.png');
             margin-left: 17px;
           }
         }
