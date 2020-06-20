@@ -9,8 +9,9 @@
           <a href="javasrcipt:;">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="">登录</a>
-          <a href="">注册</a>
+          <a href="javascript:;" v-if="userName">{{userName}}</a>
+          <a href="javascript:;" v-if="!userName" @click="login">登录</a>
+          <a href="/order" v-if="userName">我的订单</a>
           <a href="" class="my-cart"><span class="icon-cart"></span>购物车</a>
         </div>
       </div>
@@ -26,58 +27,13 @@
             <span>小米手机</span>
             <div class="children">
               <ul>
-                <li class="product">
-                  <a href="">
+                <li class="product" v-for="(item,index) in phoneList" :key="index">
+                  <a :href="'product/'+item.id" target="_blank">
                     <div class="pro-image">
-                      <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3bf20f1df3f2e22c5b29ff07634f3c59.png?thumb=1&w=320&h=220&f=webp&q=90" alt="">
+                      <img :src="item.mainImage" :alt="item.name">
                     </div>
-                    <div class="pro-name">小米10</div>
-                    <div class="pro-price">1999</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="">
-                    <div class="pro-image">
-                      <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3bf20f1df3f2e22c5b29ff07634f3c59.png?thumb=1&w=320&h=220&f=webp&q=90" alt="">
-                    </div>
-                    <div class="pro-name">小米10</div>
-                    <div class="pro-price">1999</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="">
-                    <div class="pro-image">
-                      <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3bf20f1df3f2e22c5b29ff07634f3c59.png?thumb=1&w=320&h=220&f=webp&q=90" alt="">
-                    </div>
-                    <div class="pro-name">小米10</div>
-                    <div class="pro-price">1999</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="">
-                    <div class="pro-image">
-                      <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3bf20f1df3f2e22c5b29ff07634f3c59.png?thumb=1&w=320&h=220&f=webp&q=90" alt="">
-                    </div>
-                    <div class="pro-name">小米10</div>
-                    <div class="pro-price">1999</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="">
-                    <div class="pro-image">
-                      <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3bf20f1df3f2e22c5b29ff07634f3c59.png?thumb=1&w=320&h=220&f=webp&q=90" alt="">
-                    </div>
-                    <div class="pro-name">小米10</div>
-                    <div class="pro-price">1999</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="">
-                    <div class="pro-image">
-                      <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3bf20f1df3f2e22c5b29ff07634f3c59.png?thumb=1&w=320&h=220&f=webp&q=90" alt="">
-                    </div>
-                    <div class="pro-name">小米10</div>
-                    <div class="pro-price">1999</div>
+                    <div class="pro-name">{{item.name}}</div>
+                    <div class="pro-price">{{item.price|currency}}</div>
                   </a>
                 </li>
               </ul>
@@ -85,10 +41,67 @@
           </div>
            <div class="item-menu">
             <span>RedMi红米</span>
-            <div class="children"></div>
+            <!-- <div class="children"></div> -->
           </div> <div class="item-menu">
             <span>电视</span>
-            <div class="children"></div>
+            <div class="children">
+              <ul>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-1.jpg" alt="">
+                    </div>
+                    <div class="pro-name">小米壁画电视 65英寸</div>
+                    <div class="pro-price">6999元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-2.jpg" alt="">
+                    </div>
+                    <div class="pro-name">小米全面屏电视E55A</div>
+                    <div class="pro-price">1999元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-3.png" alt="">
+                    </div>
+                    <div class="pro-name">小米电视4A 32英寸</div>
+                    <div class="pro-price">699元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-4.jpg" alt="">
+                    </div>
+                    <div class="pro-name">小米电视4A 55英寸</div>
+                    <div class="pro-price">1799元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-5.jpg" alt="">
+                    </div>
+                    <div class="pro-name">小米电视4A 65英寸</div>
+                    <div class="pro-price">2699元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="/imgs/nav-img/nav-3-6.png" alt="">
+                    </div>
+                    <div class="pro-name">查看全部</div>
+                    <div class="pro-price">查看全部</div>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="header-search">
@@ -107,7 +120,32 @@ export default {
   name: 'NavHeader',
   data () {
     return {
-
+      phoneList: [],
+      userName: ''
+    }
+  },
+  mounted () {
+    this.getProductList()
+  },
+  filters: {
+    currency (val) {
+      if (!val) return '0.00'
+      return '￥' + val.toFixed(2) + '元'
+    }
+  },
+  methods: {
+    getProductList () {
+      this.axios.get('/products', {
+        params: {
+          categoryId: '100012'
+          // pageSize: 6
+        }
+      }).then((res) => {
+        if (res.list.length > 6) { this.phoneList = res.list.splice(0, 6) }
+      })
+    },
+    login () {
+      this.$router.push('/login')
     }
   }
 }
@@ -188,16 +226,23 @@ export default {
           }
           &:hover{
             color:$colorA;
+            .children{
+              height: 220px;
+              opacity: 1;
+            }
           }
           .children{
             width:1226px;
-            height: 220px;
             position: absolute;
             top:112px;
             left:0px;
             box-shadow:0px 7px 6px 0px rgba(0, 0, 0, 0.11);
             border-top: 1px solid $colorH;
             z-index: 10;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.5s;
             .product{
               display: inline-block;
               width: 16.6%;
