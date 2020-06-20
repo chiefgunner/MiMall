@@ -243,6 +243,7 @@ export default {
             height: 0;
             overflow: hidden;
             transition: all 0.5s;
+            background-color: #fff;
             .product{
               display: inline-block;
               width: 16.6%;
