@@ -73,14 +73,15 @@
           <div class="list-box">
             <div class="list" v-for="(items,index) in phoneList" :key="index">
               <div class="item" v-for="(item,i) in items" :key="i">
-                <span>新品</span>
+                <span :class="item.class">{{item.span}}</span>
+                <!-- <span :class="[i%2==0?'new-pro':'kill-pro']">{{i%2==0?'新品':'秒杀'}}</span> -->
                 <div class="item-img">
-                  <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6f2493e6c6fe8e2485c407e5d75e3651.jpg" alt="">
+                  <img :src="item.mainImage" alt="">
                 </div>
                 <div class="item-info">
-                  <h3>小米9</h3>
-                  <p>骁龙855，索尼4800万超广角微距</p>
-                  <p class="price">2999元</p>
+                  <h3>{{item.name}}</h3>
+                  <p>{{item.subtitle}}</p>
+                  <p class="price">{{item.price}}</p>
                 </div>
               </div>
             </div>
@@ -192,7 +193,43 @@ export default {
           img: '/imgs/ads/ads-4.jpg'
         }
       ],
-      phoneList: [[1, 1, 1, 1], [1, 1, 1, 1]]
+      phoneList: [[1, 1, 1, 1], [1, 1, 1, 1]],
+      subList: [
+        {},
+        {
+          class: 'new-pro',
+          name: '新品'
+        }, {
+          class: 'kill-pro',
+          name: '秒杀'
+        }, {
+          class: 'reduce-pro',
+          name: '满减'
+        }
+      ]
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+      this.axios.get('/products', {
+        params: {
+          categoryId: 100012,
+          pageSize: 14
+        }
+      }).then((res) => {
+        res.list.map((val, index) => {
+          let num = Math.floor(Math.random() * 10 % 4)
+          let tmp = {
+            span: this.subList[num]['name'],
+            class: this.subList[num]['class']
+          }
+          Object.assign(val, tmp)
+        })
+        this.phoneList = [res.list.slice(-8, -4), res.list.slice(-4)]
+      })
     }
   }
 }
@@ -334,11 +371,29 @@ export default {
               background-color:$colorG;
               text-align:center;
               span{
-
+                display:inline-block;
+                width:67px;
+                height:24px;
+                font-size:14px;
+                line-height:24px;
+                color:$colorG;
+                &.new-pro{
+                  background-color:#7ECF68;
+                }
+                &.kill-pro{
+                  background-color:#E82626;
+                }
+                &.reduce-pro{
+                  background-color:#d4af27;
+                }
               }
               .item-img{
                 img{
-                  height: 195px;
+                  width: 100%;
+                  //height: 195px;
+                  height: 160px;
+                  width: 160px;
+                  margin:10px 0 13px;
                 }
               }
               .item-info{
