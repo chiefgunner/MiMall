@@ -151,7 +151,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/scss/base.scss';
 @import '@/assets/scss/mixin.scss';
 @import '@/assets/scss/config.scss';
@@ -174,7 +174,7 @@ export default {
         text-align: center;
         color: #fff;
         .icon-cart{
-          @include bigImg(16px,12px,'/imgs/icon-cart-checked.png');
+          @include bgImg(16px,12px,'/imgs/icon-cart-checked.png');
           margin-right: 4px;
         }
       }
@@ -197,12 +197,12 @@ export default {
           &:before{
             content: "";
             display:inline-block;
-            @include bigImg(55px,55px,'/imgs/mi-logo.png',55px);
+            @include bgImg(55px,55px,'/imgs/mi-logo.png',55px);
             transition: margin .2s;
           }
           &:after{
             content: "";
-            @include bigImg(55px,55px,'/imgs/mi-home.png',55px);
+            @include bgImg(55px,55px,'/imgs/mi-home.png',55px);
           }
           &:hover:before{
             margin-left: -55px;
@@ -305,7 +305,7 @@ export default {
             box-sizing: border-box;
           }
           a{
-            @include bigImg(18px,18px,'/imgs/icon-search.png');
+            @include bgImg(18px,18px,'/imgs/icon-search.png');
             margin-left: 17px;
           }
         }
