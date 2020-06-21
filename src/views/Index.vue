@@ -42,7 +42,7 @@
         </div>
         <!-- 轮播 -->
         <swiper :options="swiperOptions">
-          <swiper-slide v-for="(item,index) in slideList" :key="index" data-swiper-autoplay="2000">
+          <swiper-slide v-for="(item,index) in slideList" :key="index" data-swiper-autoplay="2700">
             <a :href="'/product/'+item.id"><img :src="item.img"></a>
           </swiper-slide>
           <!-- 如果需要分页器 -->
@@ -52,8 +52,16 @@
         </swiper>
 
       </div>
-      <div class="ads-box"></div>
-      <div class="banner"></div>
+      <div class="ads-box">
+        <a :href="'/product/'+item.id" v-for="(item,index) in adsList" :key="index">
+          <img :src="item.img">
+        </a>
+      </div>
+      <div class="banner">
+        <a href="/product/30">
+          <img src="/imgs/banner-1.png" alt="">
+        </a>
+      </div>
       <div class="product-box"></div>
     </div>
     <service-bar></service-bar>
@@ -144,6 +152,21 @@ export default {
           }
         ],
         [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]
+      ],
+      adsList: [
+        {
+          id: 33,
+          img: '/imgs/ads/ads-1.png'
+        }, {
+          id: 48,
+          img: '/imgs/ads/ads-2.jpg'
+        }, {
+          id: 45,
+          img: '/imgs/ads/ads-3.png'
+        }, {
+          id: 47,
+          img: '/imgs/ads/ads-4.jpg'
+        }
       ]
     }
   }
@@ -231,7 +254,24 @@ export default {
         }
       }
     }
-
+    .ads-box{
+      margin-top:14px;
+      margin-bottom:31px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      a{
+        width:296px;
+        height:167px;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    .banner{
+      margin-bottom: 50px;
+    }
   }
 
 </style>
