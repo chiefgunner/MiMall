@@ -81,7 +81,7 @@
                 <div class="item-info">
                   <h3>{{item.name}}</h3>
                   <p>{{item.subtitle}}</p>
-                  <p class="price">{{item.price}}</p>
+                  <p class="price" @click="addCart(item.id)">{{item.price}}</p>
                 </div>
               </div>
             </div>
@@ -94,7 +94,9 @@
       title="提示"
       sureText="查看购物车"
       btnType="1"
-      modalType="middle" v-bind:showModal="true"
+      modalType="middle" v-bind:showModal="showModal"
+      @submit="submit"
+      @cancle="cancle"
     >
       <template v-slot:body>
         <p>商品添加成功</p>
@@ -117,6 +119,7 @@ export default {
   },
   data () {
     return {
+      showModal: false,
       swiperOptions: {
         loop: true,
         autoplay: true,
@@ -242,6 +245,16 @@ export default {
         })
         this.phoneList = [res.list.slice(-8, -4), res.list.slice(-4)]
       })
+    },
+    submit () {
+      this.$router.push('/cart')
+    },
+    cancle () {
+      this.showModal = false
+    },
+    addCart (id) {
+      this.showModal = true
+      // next
     }
   }
 }
