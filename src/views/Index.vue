@@ -10,7 +10,7 @@
                 <ul v-for="(item,i) in menuList" v-bind:key="i">
                   <li v-for="(sub,j) in item" v-bind:key="j">
                     <a v-bind:href="sub?'/#/product/'+sub.id:''">
-                      <img v-bind:src="sub?sub.img:'/imgs/item-box-1.png'" alt="">
+                      <img v-lazy="sub?sub.img:'/imgs/item-box-1.png'" alt="">
                       {{sub?sub.name:'小米9'}}
                     </a>
                   </li>
@@ -54,7 +54,7 @@
       </div>
       <div class="ads-box">
         <a :href="'/product/'+item.id" v-for="(item,index) in adsList" :key="index">
-          <img :src="item.img">
+          <img v-lazy="item.img">
         </a>
       </div>
       <div class="banner">
@@ -76,7 +76,7 @@
                 <span :class="item.class">{{item.span}}</span>
                 <!-- <span :class="[i%2==0?'new-pro':'kill-pro']">{{i%2==0?'新品':'秒杀'}}</span> -->
                 <div class="item-img">
-                  <img :src="item.mainImage" alt="">
+                  <img v-lazy="item.mainImage" alt="">
                 </div>
                 <div class="item-info">
                   <h3>{{item.name}}</h3>
