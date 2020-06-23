@@ -25,10 +25,14 @@ axios.defaults.baseURL = '/api' // mockjs
 // 接口拦截 interceptors
 axios.interceptors.response.use(function (response) {
   let res = response.data
+  let path = location.pathname
+  // 如果 route 为 hash 模式 => path = location.hash
   if (res.status === 0) {
     return res.data
   } else if (res.status === 10) {
-    window.location.href = '/'
+    if (path !== '/index' && path !== '/login') {
+      window.location.href = '/login'
+    }
   } else {
     // alert(res.msg)
     return Promise.reject(res)
