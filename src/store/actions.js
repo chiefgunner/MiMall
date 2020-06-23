@@ -1,0 +1,4 @@
+/**
+ * vuex-actions
+ */
+export default {}

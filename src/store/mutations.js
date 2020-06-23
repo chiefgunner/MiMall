@@ -1,0 +1,4 @@
+/**
+ * vuex-mutations
+ */
+export default {}
