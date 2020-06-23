@@ -58,6 +58,8 @@ export default {
       }).then((res) => {
         //
         this.userId = res.id
+        // 将用户信息保存到 cookie 中
+        this.$cookie.set('userId', res.id, { expires: '1M' })
         this.$router.push('/index')
       })
     },
