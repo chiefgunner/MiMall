@@ -87,3 +87,84 @@ npm i -g @vue/cli
 yarn global add @vuecli
 vue -V
 ```
+
+## Vuex
+创建 `index.js` `actions.js` `mutations.js`
+> index.js
+```js
+//index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+import mutations from './mutations'
+import actions from './actions'
+
+//挂载 vuex
+Vue.use(Vuex)
+//
+const state = {
+  username:''
+}
+export default new Vuex.Store({
+  state,
+  mutations,
+  actions
+})
+```
+> actions.js
+```js
+//actions.js
+export default{
+  setUsername(content,username){
+    content.commit('setUsername',username)
+  },
+  setUsername({commit},username){
+    commit('setUsername',username)
+  }
+}
+```
+> mutations.js
+```js
+//mutations.js
+export default{
+  setUsername(state,username){
+    state.username = username
+  }
+}
+```
+> main.js
+```js
+import store from './store'
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
+```
+### 分发 Action
+通过 `store.dispatch()` 方法触发
+```js
+this.$store.dispatch('setUsername','chiefgunner')
+```
+### 在组件中分发 Action
+你在组件中使用 this.$store.dispatch('xxx') 分发 action，或者使用 mapActions 辅助函数将组件的 methods 映射为 store.dispatch 调用（需要先在根节点注入 store）：
+```js
+import { mapActions } from 'vuex'
+
+export default{
+  //...
+  methods:{
+    ...mapActions(['setUsername','...'])
+    //this.setUsername('chiefgunner')  => this.$store.dispatch('setUsername','chiefgunner')
+  }
+}
+```
+
+### mapState 辅助函数
+```js
+import mapState from 'vuex'
+computed:{
+  //...
+  ...mapState(['username','...'])
+}
+```

@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'login',
   data () {
@@ -50,6 +51,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['saveUsername']),
     login () {
       let { username, password } = this
       this.axios.post('/user/login', {
@@ -58,6 +60,10 @@ export default {
       }).then((res) => {
         //
         this.userId = res.id
+        // 用户信息保存 vuex
+        // this.$store.dispatch('saveUsername', res.username)
+        this.saveUsername(res.username)
+
         // 将用户信息保存到 cookie 中
         this.$cookie.set('userId', res.id, { expires: '1M' })
         this.$router.push('/index')

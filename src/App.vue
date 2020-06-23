@@ -5,6 +5,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'app',
   components: {},
@@ -32,14 +33,18 @@ export default {
     this.getCartCount()
   },
   methods: {
+    ...mapActions(['saveUsername', 'saveCartCount']),
     getUser () {
-      this.axios.get('/user').then(() => {
-        //
+      this.axios.get('/user').then((res) => {
+        // save username to vuex
+        // this.$store.dispatch('saveUsername', res.username)
+        this.saveUsername(res.username)
       })
     },
     getCartCount () {
-      this.axios.get('/carts/products/sum').then(() => {
-        //
+      this.axios.get('/carts/products/sum').then((res) => {
+        // save cart num to vuex
+        this.$store.dispatch('saveCartCount', res)
       })
     }
   }
