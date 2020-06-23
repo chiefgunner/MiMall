@@ -29,7 +29,8 @@ axios.interceptors.response.use(function (response) {
   } else if (res.status === 10) {
     window.location.href = '/'
   } else {
-    alert(res.msg)
+    // alert(res.msg)
+    return Promise.reject(res)
   }
 })
 //
