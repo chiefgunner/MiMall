@@ -2,7 +2,7 @@
   <div class="product">
     <product-param :title="product.name">
       <template v-slot:buy>
-        <button class="btn">立即购买</button>
+        <button class="btn" @click="buy">立即购买</button>
       </template>
     </product-param>
 
@@ -116,6 +116,10 @@ export default {
       this.axios.get(`/products/${id}`).then((res) => {
         this.product = res
       })
+    },
+    buy () {
+      let id = this.$route.params.id
+      this.$router.push(`/detail/${id}`)
     },
     showVideo () {
       this.showSlide = !this.showSlide
