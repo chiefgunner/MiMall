@@ -1,6 +1,6 @@
 <template>
   <div class="product">
-    <product-param>
+    <product-param :title="product.name">
       <template v-slot:buy>
         <button class="btn">立即购买</button>
       </template>
@@ -8,8 +8,8 @@
 
     <div class="container">
       <div class="item-bg">
-        <h2>小米8</h2>
-        <h3>8周年旗舰版</h3>
+        <h2>{{product.name}}</h2>
+        <h3>{{product.subtitle}}</h3>
         <p>
           <a href="" id="">全球首款双频 GP</a>
           <span>|</span>
@@ -20,7 +20,7 @@
           <a href="" id="">红外人脸识别</a>
         </p>
         <div class="price">
-          <span>￥<em>2599</em></span>
+          <span>￥<em>{{product.price}}</em></span>
         </div>
       </div>
       <div class="item-bg-2"></div>
@@ -55,17 +55,25 @@
           </div>
         </div> -->
         <!-- 第二种实现方式 -->
-        <div class="video-bg" @click="showVideo2('down')"></div>
+        <!-- <div class="video-bg" @click="showVideo2('down')"></div>
         <div class="video-box">
           <div class="overlay" v-show="slideClass=='slideDown'"></div>
           <div class="video" :class="slideClass">
             <span class="icon-close" @click="showVideo2('up')"></span>
             <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
           </div>
+        </div> -->
+        <!-- 改进版 -->
+        <div class="video-bg" @click="showVideo3('down')"></div>
+        <div class="video-box" v-show="slideClass">
+          <div class="overlay"></div>
+          <div class="video" :class="slideClass">
+            <span class="icon-close" @click="showVideo3('up')"></span>
+            <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
+          </div>
         </div>
 
       </div>
-
     </div>
   </div>
 </template>
@@ -83,6 +91,7 @@ export default {
   },
   data () {
     return {
+      product: {},
       showSlide: false,
       slideClass: '',
       top: '',
@@ -98,7 +107,16 @@ export default {
       }
     }
   },
+  mounted () {
+    this.getProductInfo()
+  },
   methods: {
+    getProductInfo () {
+      let id = this.$route.params.id
+      this.axios.get(`/products/${id}`).then((res) => {
+        this.product = res
+      })
+    },
     showVideo () {
       this.showSlide = !this.showSlide
       // 弹出层打开后，禁止页面滚动
@@ -120,6 +138,21 @@ export default {
       } else {
         document.documentElement.style.overflow = 'scroll'
         window.parent.scrollTo(0, this.top)
+      }
+    },
+    showVideo3 (val) {
+      this.slideClass = val === 'down' ? 'slideDown' : 'slideUp'
+
+      // 弹出层打开后，禁止页面滚动
+      if (val === 'down') {
+        this.top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        document.documentElement.style.overflow = 'hidden'
+      } else {
+        document.documentElement.style.overflow = 'scroll'
+        window.parent.scrollTo(0, this.top)
+        setTimeout(() => {
+          this.slideClass = ''
+        }, 600)
       }
     }
   }
