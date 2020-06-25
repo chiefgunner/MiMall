@@ -45,11 +45,11 @@
       <div class="item-video">
         <h2>60帧超慢动作摄影<br/>慢慢回味每一瞬间的精彩</h2>
         <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br/>更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
-        <div class="video-bg"></div>
+        <div class="video-bg" @click="showVideo"></div>
         <div class="video-box">
-          <div class="overlay"></div>
-          <div class="video">
-            <span class="icon-close"></span>
+          <div class="overlay" v-show="showSlide"></div>
+          <div class="video" :class="{'slide':showSlide}">
+            <span class="icon-close" @click="showVideo"></span>
             <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
           </div>
         </div>
@@ -72,6 +72,8 @@ export default {
   },
   data () {
     return {
+      showSlide: false,
+      top: '',
       swiperOption: {
         autoplay: true,
         slidesPerView: 3,
@@ -81,6 +83,19 @@ export default {
           el: '.swiper-pagination',
           clickable: true
         }
+      }
+    }
+  },
+  methods: {
+    showVideo () {
+      this.showSlide = !this.showSlide
+      // 弹出层打开后，禁止页面滚动
+      if (this.showSlide) {
+        this.top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        document.documentElement.style.overflow = 'hidden'
+      } else {
+        document.documentElement.style.overflow = 'scroll'
+        window.parent.scrollTo(0, this.top)
       }
     }
   }
@@ -180,12 +195,23 @@ export default {
         }
         .video{
           position:fixed;
-          top:50%;
+          top:-50%;
           left:50%;
           transform: translate(-50%,-50%);
           z-index:10;
           width:1000px;
           height:536px;
+          opacity:0;
+          &.slide{
+            top:50%;
+            opacity:1;
+            body{
+              position: fixed;
+              top:0;
+              height: 100%;
+              overflow: hidden;
+            }
+          }
           .icon-close{
             position:absolute;
             top:20px;
@@ -193,6 +219,11 @@ export default {
             @include bgImg(20px,20px,'/imgs/icon-close.png');
             cursor:pointer;
             z-index:11;
+            &:hover{
+              transform: scale(1.5);
+              background-color: #FF6600;
+              border-radius: 50%;
+            }
           }
           video{
             width:100%;
