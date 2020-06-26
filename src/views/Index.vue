@@ -253,8 +253,15 @@ export default {
       this.showModal = false
     },
     addCart (id) {
-      this.showModal = true
       // next
+      this.axios.post('/carts', {
+        productId: id,
+        selected: true
+      }).then((res = { cartProductVoList: '' }) => {
+        this.showModal = true
+
+        this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
+      })
     }
   }
 }

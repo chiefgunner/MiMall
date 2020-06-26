@@ -53,6 +53,8 @@ export default {
   height: 70px;
   background-color: $colorG;
   transition: all .5s linear;
+  border-top:1px solid $colorH;
+  z-index:10;
   &.is-fixed{
     position: fixed;
     top:0;
