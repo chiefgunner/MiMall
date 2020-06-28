@@ -76,7 +76,8 @@ export default {
         email: 'chiefgunner@163.com'
       }).then(() => {
         //
-        alert('success')
+        // alert('success')
+        this.$message.success('success')
       })
     }
   }

@@ -124,13 +124,15 @@ export default {
       let selected = item.productSelected
       if (type === 'sub') {
         if (quantity === 1) {
-          alert('商品至少保留一件')
+          // this.$message.warning('商品至少保留一件')
+          this.$message.warning({ message: '商品至少保留一件', center: true })
           return
         }
         quantity--
       } else if (type === 'add') {
         if (quantity >= item.productStock) {
-          alert('库存不足')
+          // alert('库存不足')
+          this.$message.warning('库存不足')
           return
         }
         quantity++
@@ -141,12 +143,14 @@ export default {
         quantity, selected
       }).then((res) => {
         this.renderData(res)
+        this.$message.success('OK')
       })
     },
     submit () {
       this.axios.delete(`/carts/${this.delId}`).then((res) => {
         this.show = false
         this.renderData(res)
+        this.$message.success('删除成功')
       })
     },
     // 删除商品
