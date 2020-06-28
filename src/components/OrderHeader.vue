@@ -7,12 +7,13 @@
       <div class="title">
         <h2>{{title}}<slot name="tip"></slot></h2>
       </div>
-      <div class="username">jack</div>
+      <div class="username">{{username}}</div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'order-header',
   props: {
@@ -22,6 +23,9 @@ export default {
     return {
 
     }
+  },
+  computed: {
+    ...mapState(['username'])
   }
 }
 </script>
