@@ -35,6 +35,7 @@ export default {
 .order-header{
   height: 112px;
   padding:30px;
+  border-bottom:2px solid #FF6600;
   .container{
     .header-logo{
       float: left;
