@@ -23,7 +23,7 @@
             <ul class="cart-item-list">
               <li class="cart-item" v-for="(item,i) in list" :key="i">
                 <div class="item-check">
-                  <span class="checkbox" :class="{'checked':item.productSelected}"></span>
+                  <span class="checkbox" :class="{'checked':item.productSelected}" @click="updateCart(item,'select')"></span>
                 </div>
                 <div class="item-name">
                   <img v-lazy="item.productMainImage" alt="">
@@ -32,13 +32,13 @@
                 <div class="item-price">{{item.productTotalPrice}}元</div>
                 <div class="item-num">
                   <div class="num-box">
-                    <a href="javascript:;">-</a>
+                    <a href="javascript:;" @click="updateCart(item,'sub')">-</a>
                     <span>{{item.quantity}}</span>
-                    <a href="javascript:;">+</a>
+                    <a href="javascript:;" @click="updateCart(item,'add')">+</a>
                   </div>
                 </div>
                 <div class="item-total">{{item.productTotalPrice}}元</div>
-                <div class="item-del"></div>
+                <div class="item-del" @click="delCart(item)"></div>
               </li>
             </ul>
 
@@ -61,6 +61,19 @@
     </div>
     <!-- cart end -->
 
+    <modal
+      title="提示"
+      btnType="3"
+      sureText="确定"
+      cancleText="取消"
+      :showModal="show"
+      @submit="submit"
+      @cancle="show=false"
+    >
+      <template v-slot:body>
+        <p>确认删除该商品?</p>
+      </template>
+    </modal>
     <service-bar></service-bar>
     <nav-footer></nav-footer>
   </div>
@@ -68,6 +81,7 @@
 
 <script>
 import OrderHeader from '@/components/OrderHeader'
+import Modal from '@/components/Modal'
 import ServiceBar from '@/components/ServiceBar'
 import NavFooter from '@/components/NavFooter'
 export default {
@@ -75,10 +89,13 @@ export default {
   components: {
     OrderHeader,
     NavFooter,
+    Modal,
     ServiceBar
   },
   data () {
     return {
+      show: false, // modal 显示与否
+      delId: '', // 删除商品id
       list: [], // 商品列表
       allChecked: false, // 是否全选
       cartTotalPrice: 0, // 商品总金额
@@ -94,12 +111,53 @@ export default {
         this.renderData(res)
       })
     },
+    // 全选
     toggleAll () {
       let url = this.allChecked ? '/carts/unSelectAll' : '/carts/selectAll'
       this.axios.put(url).then((res) => {
         this.renderData(res)
       })
     },
+    // 更新购物车
+    updateCart (item, type) {
+      let quantity = item.quantity
+      let selected = item.productSelected
+      if (type === 'sub') {
+        if (quantity === 1) {
+          alert('商品至少保留一件')
+          return
+        }
+        quantity--
+      } else if (type === 'add') {
+        if (quantity >= item.productStock) {
+          alert('库存不足')
+          return
+        }
+        quantity++
+      } else if (type === 'select') {
+        selected = !selected
+      }
+      this.axios.put(`/carts/${item.productId}`, {
+        quantity, selected
+      }).then((res) => {
+        this.renderData(res)
+      })
+    },
+    submit () {
+      this.axios.delete(`/carts/${this.delId}`).then((res) => {
+        this.show = false
+        this.renderData(res)
+      })
+    },
+    // 删除商品
+    delCart (item) {
+      this.show = true
+      this.delId = item.productId
+      // this.axios.delete(`/carts/${item.productId}`).then((res) => {
+      //   this.renderData(res)
+      // })
+    },
+    // 赋值
     renderData (res) {
       this.list = res.cartProductVoList || []
       this.allChecked = res.selectedAll
