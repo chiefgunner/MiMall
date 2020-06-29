@@ -209,6 +209,7 @@ Vue.use(Upload)
 Vue.prototype.$message = Message
 ```
 `ant-design-vue` 使用
+
 安装所需要包
 ```bash
 npm i ant-design-vue less less-loader --save-dev
@@ -259,6 +260,7 @@ import { Button } from 'ant-design-vue';
 >注意，babel-plugin-import 的 style 属性除了引入对应组件的样式，也会引入一些必要的全局样式。如果你不需要它们，建议不要使用此属性。你可以 import 'ant-design-vue/dist/antd.css 手动引入，并覆盖全局样式。
 
 `iview` 使用
+
 安装 iview
 ```bash
 npm i view-design --save-dev
