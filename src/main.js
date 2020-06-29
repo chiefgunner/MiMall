@@ -4,7 +4,7 @@ import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
 import { Message } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css' //element-ui 按需加载不用引入css
 //
 import App from './App.vue'
 import router from './router'
