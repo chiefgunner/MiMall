@@ -125,7 +125,10 @@ export default {
       if (type === 'sub') {
         if (quantity === 1) {
           // this.$message.warning('商品至少保留一件')
-          this.$message.warning({ message: '商品至少保留一件', center: true })
+          // this.$message.warning({ message: '商品至少保留一件', center: true })
+          // this.$messageatd.warning('商品至少保留一件')
+          // this.$Message.config({ background: true })
+          // this.$Message.info({ content: '商品至少保留一件', background: true })
           return
         }
         quantity--
@@ -253,7 +256,7 @@ export default {
               flex:2;
               .num-box{
                 display:inline-block;
-                width:150px;
+                width:152px;
                 height:40px;
                 line-height:40px;
                 border:1px solid #E5E5E5;

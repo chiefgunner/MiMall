@@ -3,8 +3,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
-import { Message } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import { Message } from 'element-ui'
+// import { message } from 'ant-design-vue'
+// import 'ant-design-vue/dist/antd.css'
+// import 'element-ui/lib/theme-chalk/index.css'
+import { Message } from 'view-design'
+import 'view-design/dist/styles/iview.css'
 //
 import App from './App.vue'
 import router from './router'
@@ -48,8 +52,10 @@ Vue.use(VueCookie)
 Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-bars.svg'
 })
-Vue.prototype.$message = Message
-
+// Vue.prototype.$message = Message
+// Vue.component('Message', Message)
+Vue.prototype.$Message = Message
+// Vue.prototype.$messageatd = message
 new Vue({
   router,
   store,
