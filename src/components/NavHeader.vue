@@ -15,7 +15,7 @@
             我的订单
           </router-link>
           <router-link to="/cart" class="my-cart">
-            <span class="icon-cart"></span>购物车（{{cartCount}})
+            <span class="icon-cart"></span>购物车（{{cartCount}}）
           </router-link>
         </div>
       </div>
