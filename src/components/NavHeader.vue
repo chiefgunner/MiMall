@@ -11,8 +11,12 @@
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{username}}</a>
           <a href="javascript:;" v-if="!username" @click="login">登录</a>
-          <a href="/order" v-if="username">我的订单</a>
-          <a href="/cart" class="my-cart"><span class="icon-cart"></span>购物车（{{cartCount}}）</a>
+          <router-link to="/order" v-if="username">
+            我的订单
+          </router-link>
+          <router-link to="/cart" class="my-cart">
+            <span class="icon-cart"></span>购物车（{{cartCount}})
+          </router-link>
         </div>
       </div>
     </div>
@@ -20,7 +24,8 @@
     <div class="nav-header">
       <div class="container">
         <div class="header-logo">
-          <a href="/"></a>
+          <router-link to="/"></router-link>
+          <!-- <a href="/"></a> -->
         </div>
         <div class="header-menu">
           <div class="item-menu">
@@ -28,13 +33,13 @@
             <div class="children">
               <ul>
                 <li class="product" v-for="(item,index) in phoneList" :key="index">
-                  <a :href="'product/'+item.id" target="_blank">
+                  <router-link :to="'product/'+item.id" target="_blank">
                     <div class="pro-image">
                       <img :src="item.mainImage" :alt="item.name">
                     </div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">{{item.price|currency}}</div>
-                  </a>
+                  </router-link>
                 </li>
               </ul>
             </div>

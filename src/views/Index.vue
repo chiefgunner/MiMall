@@ -9,10 +9,14 @@
               <div class="children">
                 <ul v-for="(item,i) in menuList" v-bind:key="i">
                   <li v-for="(sub,j) in item" v-bind:key="j">
-                    <a v-bind:href="sub?'/product/'+sub.id:''">
+                    <!-- <a v-bind:href="sub?'/product/'+sub.id:''">
                       <img :src="sub?sub.img:'/imgs/item-box-1.png'" alt="">
                       {{sub?sub.name:'小米9'}}
-                    </a>
+                    </a> -->
+                    <router-link :to="sub?'/product/'+sub.id:''">
+                      <img :src="sub?sub.img:'/imgs/item-box-1.png'" alt="">
+                      {{sub?sub.name:'小米9'}}
+                    </router-link>
                   </li>
                 </ul>
               </div>
@@ -43,7 +47,9 @@
         <!-- 轮播 -->
         <swiper :options="swiperOptions">
           <swiper-slide v-for="(item,index) in slideList" :key="index" data-swiper-autoplay="2700">
-            <a :href="'/product/'+item.id"><img :src="item.img"></a>
+            <router-link :to="'/product/'+item.id">
+              <img :src="item.img">
+            </router-link>
           </swiper-slide>
           <!-- 如果需要分页器 -->
           <div class="swiper-pagination" slot="pagination"></div>
@@ -53,14 +59,14 @@
 
       </div>
       <div class="ads-box">
-        <a :href="'/product/'+item.id" v-for="(item,index) in adsList" :key="index">
+        <router-link :to="'/product/'+item.id" v-for="(item,index) in adsList" :key="index">
           <img v-lazy="item.img">
-        </a>
+        </router-link>
       </div>
       <div class="banner">
-        <a href="/product/30">
+        <router-link to="/product/30">
           <img src="/imgs/banner-1.png" alt="">
-        </a>
+        </router-link>
       </div>
     </div>
     <div class="product-box">
@@ -68,7 +74,9 @@
         <h2>手机</h2>
         <div class="wrapper">
           <div class="banner-left">
-            <a href="/product/35"><img src="/imgs/mix-alpha.jpg" alt=""></a>
+            <router-link to="/product/35">
+              <img src="/imgs/mix-alpha.jpg" alt="">
+            </router-link>
           </div>
           <div class="list-box">
             <div class="list" v-for="(items,index) in phoneList" :key="index">
@@ -163,11 +171,11 @@ export default {
           img: '/imgs/slider/slide-3.jpg'
         },
         {
-          id: '',
+          id: '43',
           img: '/imgs/slider/slide-4.jpg'
         },
         {
-          id: '',
+          id: '44',
           img: '/imgs/slider/slide-1.jpg'
         }
       ],
