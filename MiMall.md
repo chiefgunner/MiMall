@@ -296,3 +296,25 @@ Vue.prototype.$Message.config({
 
 ```
 >按需引用仍然需要导入样式，即在 main.js 或根组件执行 import 'view-design/dist/styles/iview.css';
+
+### 导航
+```js
+this.$router.push({
+  path:'/index',
+  query:{
+    from:'login'
+  }
+})
+
+this.$route.query
+```
+```js
+this.$router.push({
+  name:'index',
+  params:{
+    from:'login'
+  }
+})
+
+this.$route.params
+```

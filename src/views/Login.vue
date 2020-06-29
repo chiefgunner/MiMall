@@ -65,8 +65,22 @@ export default {
         this.saveUsername(res.username)
 
         // 将用户信息保存到 cookie 中
-        this.$cookie.set('userId', res.id, { expires: '1M' })
-        this.$router.push('/index')
+        // this.$cookie.set('userId', res.id, { expires: '1M' })// 过期时间 1 个月
+        this.$cookie.set('userId', res.id, { expires: 'Session' })
+        this.$router.push({
+          name: 'index',
+          params: {
+            from: 'login'
+          }
+        })
+        // this.$router.push('/index')
+        // query => /index?from=login
+        // this.$router.push({
+        //   path: '/index',
+        //   query: {
+        //     from: 'login'
+        //   }
+        // })
       })
     },
     register () {

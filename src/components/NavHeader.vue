@@ -11,6 +11,7 @@
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{username}}</a>
           <a href="javascript:;" v-if="!username" @click="login">登录</a>
+          <a href="javascript:;" v-if="username" @click="logout">退出</a>
           <router-link to="/order" v-if="username">
             我的订单
           </router-link>
@@ -121,7 +122,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'NavHeader',
   data () {
@@ -142,6 +143,9 @@ export default {
   },
   mounted () {
     this.getProductList()
+    if (this.$route.params.from === 'login') {
+      this.getCartCount()
+    }
   },
   filters: {
     currency (val) {
@@ -150,6 +154,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['saveUsername', 'saveCartCount']),
     getProductList () {
       this.axios.get('/products', {
         params: {
@@ -162,7 +167,23 @@ export default {
     },
     login () {
       this.$router.push('/login')
+    },
+    logout () {
+      this.axios.post('/user/logout').then((res) => {
+        // 清空 store 中的数据及 cookie
+        this.$message.success('退出成功')
+        this.$cookie.set('userId', '', { expires: '-1' })
+        this.saveUsername('')
+        this.saveCartCount(0)
+      })
+    },
+    getCartCount () {
+      this.axios.get('/carts/products/sum').then((res) => {
+        // save cart num to vuex
+        this.$store.dispatch('saveCartCount', res)
+      })
     }
+
   }
 }
 </script>
