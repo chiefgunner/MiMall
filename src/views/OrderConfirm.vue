@@ -127,7 +127,6 @@ export default {
       action: '', // 地址用户行为 add edit del
       addressId: '', // 选中的地址 id
       request: {}// 请求方法及 url
-
     }
   },
   mounted () {
@@ -151,7 +150,6 @@ export default {
     },
     submitAddress () {
       let { method, url } = this.request
-
       //
       this.axios[method](url).then((res) => {
         this.$message.success('OK')

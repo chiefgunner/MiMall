@@ -318,3 +318,46 @@ this.$router.push({
 
 this.$route.params
 ```
+
+
+
+
+# 常用方法
+## filter
+用于对数组的过滤
+```js
+let list = [
+  {id:1,selected:true},
+  {id:2,selected:false},
+  {id:3,selected:false},
+  {id:4,selected:true},
+];
+let new = ''
+//得到 select ture 的数据
+new = list.filter((item)=>{
+  return item.selected
+})
+new = list.filter((item)=>item.selected)
+new = list.filter(item=>item.selected)
+//得到 selected 为 false 的数据
+new = list.filter((item)=>!item.selected)
+```
+
+## map forEach
+```js
+new = list.map((item,index)=>{
+  if(item.id == 3){
+    list.splice(index,1)
+  }
+})
+```
+## some
+```js
+//some 判断是否有满足的元素(商品至少选择一件) return boolean
+list.some((item)=>item.selected)
+```
+## every
+```js
+//every 判断是否全部满足 return boolean
+list.every((item)=>item.selected)
+```
