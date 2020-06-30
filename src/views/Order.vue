@@ -1,42 +1,47 @@
 <template>
   <div>
-    <order-header title="订单">
+    <order-header :title="title">
       <template v-slot:tip>
-        <span>请谨防钓鱼链接或诈骗电话，了解更多></span>
+        <span>{{tip}}</span>
       </template>
     </order-header>
     <router-view></router-view>
+
+    <service-bar></service-bar>
     <nav-footer></nav-footer>
   </div>
 </template>
 
 <script>
 import OrderHeader from '@/components/OrderHeader.vue'
+import ServiceBar from '@/components/ServiceBar'
 import NavFooter from '@/components/NavFooter.vue'
-// import Storage from '@/storage/'
 
 export default {
   name: 'order',
   components: {
     OrderHeader,
+    ServiceBar,
     NavFooter
   },
   data () {
     return {
-
+      title: '',
+      tip: ''
     }
   },
   mounted () {
-    // Storage.setItem('user', { userName: 'sundong' })
-    // Storage.setItem('age', 18, 'user')
-    // Storage.setItem('order', { 123456: 'goods_1' })
-    // Storage.setItem(2, 'goods_2', 'order')
-    // console.log(Storage.getItem('user'))
-    // console.log(Storage.getItem('userName', 'user'))
-    // Storage.clear(123456, 'order')
-    // Storage.setItem(1, 'goods_1', 'order')
-    // Storage.clear('order')
-    // Storage.getStorage()
+    let path = this.$route.path
+    if (path === '/order/confirm') {
+      this.title = '订单确认'
+      this.tip = '请认真填写收货地址'
+    } else if (path === '/order/list') {
+      this.title = '订单列表'
+      this.tip = '请谨防钓鱼链接或诈骗电话，了解更多>'
+    } else if (path === '/order/pay') {
+      this.title = '订单支付'
+      this.tip = '请认证核对订单信息'
+    }
   }
 }
 </script>
