@@ -30,7 +30,7 @@
                 <div class="phone">{{item.receiverMobile}}</div>
                 <div class="street">{{item.receiverProvince+' '+item.receiverCity+' '+item.receiverDistrict}}<br>{{item.receiverAddress}}</div>
                 <div class="action">
-                  <a href="javascript:;" class="fl">
+                  <a href="javascript:;" class="fl" @click="delAddress(item)">
                     <svg class="icon icon-del"><use xlink:href="#icon-del"></use></svg>
                   </a>
                   <a href="javascript:;" class="fr">
@@ -96,18 +96,37 @@
       </div>
     </div>
 
+    <Modal
+      title="删除确认"
+      btnType="1"
+      :showModal="delModal"
+      @submit="submitAddress"
+      @cancle="delModal=false"
+    >
+      <template v-slot:body>
+        <p>您确认要删除此地址吗？</p>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script>
+import Modal from '@/components/Modal'
 export default {
   name: 'order-confirm',
+  components: {
+    Modal
+  },
   data () {
     return {
       addressList: [], // 地址列表
       cartList: {}, // 商品结算列表
       totalPrice: '', // 结算总价
-      totalNum: 0// 结算中数量
+      totalNum: 0, // 结算中数量
+      delModal: false, // 是否显示删除地址弹框
+      action: '', // 地址用户行为 add edit del
+      addressId: '', // 选中的地址 id
+      request: {}// 请求方法及 url
 
     }
   },
@@ -120,6 +139,40 @@ export default {
       this.axios.get('/shippings').then((res) => {
         this.addressList = res.list
       })
+    },
+    delAddress (item) {
+      this.action = 'del'
+      this.delModal = true
+      this.addressId = item.id
+      this.request = {
+        method: 'delete',
+        url: `/shippings/${item.id}`
+      }
+    },
+    submitAddress () {
+      let { method, url } = this.request
+
+      //
+      this.axios[method](url).then((res) => {
+        this.$message.success('OK')
+        this.closeModel()
+      })
+    },
+    closeModel () {
+      let { action, addressId } = this
+      if (action === 'del') {
+        this.addressList.map((item, index) => {
+          if (item.id === addressId) {
+            this.addressList.splice(index, 1)
+          }
+        })
+      } else if (action === 'add') {
+        this.getAddressList()
+      }
+      // 重置数据
+      this.addressId = ''
+      this.request = {}
+      this.delModal = false
     },
     getCartList () {
       this.axios.get('/carts').then((res) => {
