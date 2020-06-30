@@ -152,8 +152,8 @@ export default {
       let { method, url } = this.request
       //
       this.axios[method](url).then((res) => {
-        this.$message.success('OK')
         this.closeModel()
+        this.$message.success('OK')
       })
     },
     closeModel () {
