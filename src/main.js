@@ -3,7 +3,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
-import { Message } from 'element-ui'
+import { Message, Cascader } from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css' //element-ui 按需加载不用引入css
 //
 import App from './App.vue'
@@ -30,7 +30,7 @@ axios.interceptors.response.use(function (response) {
   let path = location.pathname
   // 如果 route 为 hash 模式 => path = location.hash
   if (res.status === 0) {
-    return res.data
+    return res.data || res.result
   } else if (res.status === 10) {
     if (path !== '/index' && path !== '/login') {
       window.location.href = '/login'
@@ -51,7 +51,10 @@ Vue.use(VueCookie)
 Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-bars.svg'
 })
+// message 消息提示
 Vue.prototype.$message = Message
+// cascader 级联选择器
+Vue.use(Cascader)
 
 new Vue({
   router,
