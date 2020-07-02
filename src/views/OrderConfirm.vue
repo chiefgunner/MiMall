@@ -267,6 +267,14 @@ export default {
 
         let { receiverProvince, receiverCity, receiverDistrict } = this.formatRegion(region, 'add')
         this.request.params = { receiverName, receiverMobile, receiverProvince, receiverCity, receiverDistrict, receiverAddress, receiverZip }
+
+        let errMsg = this.checkParams(this.request.params)
+
+        if (errMsg) {
+          this.$message.error(errMsg)
+
+          return
+        }
       }
 
       console.log(this.request.params)
@@ -337,6 +345,9 @@ export default {
       })
     },
     formatRegion (path, mask) {
+      if (!path) {
+        return { receiverProvince: '', receiverCity: '', receiverDistrict: '' }
+      }
       if (mask === 'add') {
         let receiverProvince = path[0]
         let receiverCity = path[1]
@@ -364,6 +375,25 @@ export default {
 
       // console.log({ receiverProvince, receiverCity, receiverDistrict })
       return { receiverProvince, receiverCity, receiverDistrict }
+    },
+    checkParams (params) {
+      let { receiverName, receiverMobile, receiverProvince, receiverCity, receiverDistrict, receiverAddress, receiverZip } = params
+      let errMsg = ''
+      if (!receiverName) {
+        errMsg = '请输入收货人名称'
+      } else if (!receiverMobile || !/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(receiverMobile)) {
+        errMsg = '请输入正确格式的手机号'
+      } else if (!receiverProvince) {
+        errMsg = '请选择省份'
+      } else if (!receiverCity) {
+        errMsg = '请选择对应的城市'
+      } else if (!receiverAddress || !receiverDistrict) {
+        errMsg = '请输入收货地址'
+      } else if (!/\d{6}/.test(receiverZip)) {
+        errMsg = '请输入六位邮编'
+      }
+
+      return errMsg
     }
 
   }
