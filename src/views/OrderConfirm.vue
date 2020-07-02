@@ -38,7 +38,7 @@
                   </a>
                 </div>
               </div>
-              <div class="addr-add">
+              <div class="addr-add" @click="addAddress">
                 <div class="icon-add"></div>
                 <div>添加新地址</div>
               </div>
@@ -119,11 +119,11 @@
       <template v-slot:body>
         <div class="edit-wrap">
           <div class="item">
-            <input type="text" class="input" placeholder="姓名">
-            <input type="text" class="input" placeholder="手机号">
+            <input type="text" class="input" placeholder="姓名" v-model="checkedItem.receiverName">
+            <input type="text" class="input" placeholder="手机号" v-model="checkedItem.receiverMobile">
           </div>
           <div class="item">
-            <el-cascader :props="province" clearable></el-cascader>
+            <el-cascader :props="province" clearable v-model="checkedItem.region"></el-cascader>
             <!-- <select name="province">
               <option value="北京">北京</option>
               <option value="天津">天津</option>
@@ -144,10 +144,10 @@
             </select> -->
           </div>
           <div class="item">
-            <textarea name="street"></textarea>
+            <textarea name="street" v-model="checkedItem.receiverAddress"></textarea>
           </div>
           <div class="item">
-            <input type="text" class="input" placeholder="邮编">
+            <input type="text" class="input" placeholder="邮编" v-model="checkedItem.receiverZip">
           </div>
         </div>
       </template>
@@ -163,17 +163,19 @@ export default {
     Modal
   },
   data () {
-    // let _this = this
     return {
       addressList: [], // 地址列表
       cartList: {}, // 商品结算列表
       totalPrice: '', // 结算总价
       totalNum: 0, // 结算中数量
       delModal: false, // 是否显示删除地址弹框
-      editModal: true, // 是否显示新增、编辑弹框
+      editModal: false, // 是否显示新增、编辑弹框
       action: '', // 地址用户行为 add edit del
       addressId: '', // 选中的地址 id
+      checkedItem: {}, // 选中的地址对象
       request: {}, // 请求方法及 url
+      region: [],
+      key: 'OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77', // 腾讯地图 key
       province: {
         lazy: true,
         lazyLoad: this.getRegion
@@ -195,12 +197,16 @@ export default {
         params: {
           id: id,
           // 腾讯地图 key(本地调试 白名单设为空) https://lbs.qq.com/dev/console/key/manage
-          key: 'OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77'
+          // key: 'OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77',
+          key: this.key
         }
       }).then((res) => {
-        console.log(res)
         let list = res[0]
         let { level } = node
+
+        // console.log(list, level)
+
+        this.region[level] = list
         let nodes = list.map(item => ({
           value: item.id,
           label: item.fullname,
@@ -209,9 +215,27 @@ export default {
         resolve(nodes)
       })
     },
-    getAddressList () {
-      this.axios.get('/shippings').then((res) => {
+    async getAddressList () {
+      await this.axios.get('/shippings').then((res) => {
         this.addressList = res.list
+
+        res.list.map(async (item) => {
+          if (
+            /\d{6,10}/.test(item.receiverProvince) &&
+            /\d{6,10}/.test(item.receiverCity) &&
+            /\d{6,10}/.test(item.receiverDistrict)
+          ) {
+            let receiverProvince = await this.getName(item.receiverProvince)
+            let receiverCity = await this.getName(item.receiverCity, item.receiverProvince)
+            let receiverDistrict = await this.getName(item.receiverDistrict, item.receiverCity)
+
+            item.receiverProvince = receiverProvince
+            item.receiverCity = receiverCity
+            item.receiverDistrict = receiverDistrict
+            console.log('item', item)
+          }
+          return item
+        })
       })
     },
     delAddress (item) {
@@ -223,10 +247,32 @@ export default {
         url: `/shippings/${item.id}`
       }
     },
+    addAddress () {
+      this.action = 'add'
+      this.editModal = true
+      this.request = {
+        method: 'post',
+        url: `/shippings`,
+        params: {}
+      }
+    },
     submitAddress () {
-      let { method, url } = this.request
-      //
-      this.axios[method](url).then((res) => {
+      if (this.action === 'add') {
+        let { receiverName, receiverMobile, receiverAddress, receiverZip } = this.checkedItem
+
+        let region = this.checkedItem.region
+        // console.log(region[0], region[1], region[2])
+        // console.log(this.region)
+        // console.log(this.region[0], this.region[1], this.region[2])
+
+        let { receiverProvince, receiverCity, receiverDistrict } = this.formatRegion(region, 'add')
+        this.request.params = { receiverName, receiverMobile, receiverProvince, receiverCity, receiverDistrict, receiverAddress, receiverZip }
+      }
+
+      console.log(this.request.params)
+      let { method, url, params } = this.request
+
+      this.axios[method](url, params).then((res) => {
         this.closeModel()
         this.$message.success('OK')
       })
@@ -246,6 +292,7 @@ export default {
       this.addressId = ''
       this.request = {}
       this.delModal = false
+      this.editModal = false
     },
     getCartList () {
       this.axios.get('/carts').then((res) => {
@@ -256,6 +303,67 @@ export default {
           this.totalNum += item.quantity
         })
       })
+    },
+    getRegionChild (id) {
+      let path = 'getchildren'
+      if (!id) {
+        path = 'list'
+      }
+      return this.axios.get(`/map/${path}`, {
+        params: {
+          id: id,
+          key: this.key
+        }
+      })
+    },
+    getName (current, prev = false) {
+      let path = 'getchildren'
+      if (!prev) {
+        path = 'list'
+      }
+      return this.axios.get(`/map/${path}`, {
+        params: {
+          id: prev,
+          key: this.key
+        }
+      }).then((res) => {
+        let list = res[0]
+        console.log(res)
+
+        let name = list.filter((item) => item.id === current)[0]['fullname']
+        console.log(name)
+
+        return name
+      })
+    },
+    formatRegion (path, mask) {
+      if (mask === 'add') {
+        let receiverProvince = path[0]
+        let receiverCity = path[1]
+        let receiverDistrict = path[2]
+        return { receiverProvince, receiverCity, receiverDistrict }
+      } else if (mask === 'get') {
+        this.axios.all([this.getRegionChild(), this.getRegionChild(path[0]), this.getRegionChild(path[1])])
+          .then(this.axios.spread((child1, child2, child3) => {
+            return this.getNameById(path, [child1[0], child2[0], child3[0]])
+          }))
+      }
+    },
+    // 根据地址 ID 获取省市区名称
+    getNameById (path, region = []) {
+      // receiverProvince
+      // receiverCity
+      // receiverDistrict
+      if (!region) {
+        region = this.region
+      }
+
+      let receiverProvince = region[0].filter((item) => item.id === path[0])[0]['fullname']
+      let receiverCity = region[1].filter((item) => item.id === path[1])[0]['fullname']
+      let receiverDistrict = region[2].filter((item) => item.id === path[2])[0]['fullname']
+
+      // console.log({ receiverProvince, receiverCity, receiverDistrict })
+      return { receiverProvince, receiverCity, receiverDistrict }
     }
 
   }
