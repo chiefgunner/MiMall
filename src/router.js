@@ -9,6 +9,7 @@ import Cart from './views/Cart'
 import Order from './views/Order'
 import OrderList from './views/OrderList'
 import OrderConfirm from './views/OrderConfirm'
+import OrderConfirm1 from './views/OrderConfirmBak'
 import OrderPay from './views/OrderPay'
 import AliPay from './views/AliPay'
 
@@ -65,6 +66,11 @@ export default new Router({
           path: 'confirm',
           name: 'order-confirm',
           component: OrderConfirm
+        },
+        {
+          path: 'confirm1',
+          name: 'order-confirm1',
+          component: OrderConfirm1
         },
         {
           path: 'pay',
