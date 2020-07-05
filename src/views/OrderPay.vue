@@ -44,8 +44,8 @@
           <h3>选择以下支付方式付款</h3>
           <div class="pay-way">
             <p>支付平台</p>
-            <div class="pay pay-ali checked"></div>
-            <div class="pay pay-wechat"></div>
+            <div class="pay pay-ali" :class="{'checked':payType==1}" @click="pay(1)"></div>
+            <div class="pay pay-wechat" :class="{'checked':payType==2}" @click="pay(2)"></div>
           </div>
         </div>
       </div>
@@ -60,7 +60,8 @@ export default {
       orders: [], // 订单详情
       orderNu: this.$route.query.orderNu, // 订单号
       addressInfo: '', // 订单地址
-      showDetail: false // 是否显示详情
+      showDetail: false, // 是否显示详情，
+      payType: ''// 支付方式 1：支付宝 2：微信
     }
   },
   components: {
@@ -76,6 +77,11 @@ export default {
         this.orders = res
         this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`
       })
+    },
+    pay (type) {
+      if (type == 1) {
+        window.open('/order/alipay?orderId=' + this.orderNu, '_blank')
+      }
     }
   }
 }

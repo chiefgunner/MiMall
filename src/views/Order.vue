@@ -41,6 +41,9 @@ export default {
     } else if (path === '/order/pay') {
       this.title = '订单支付'
       this.tip = '请认证核对订单信息'
+    } else {
+      this.title = '订单支付'
+      this.tip = '请谨防钓鱼链接或诈骗电话，了解更多>'
     }
   }
 }
