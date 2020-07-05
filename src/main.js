@@ -5,6 +5,8 @@ import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
 import { Message, Cascader } from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css' //element-ui 按需加载不用引入css
+import { LoadingBar } from 'view-design'
+import 'view-design/dist/styles/iview.css'
 //
 import App from './App.vue'
 import router from './router'
@@ -37,7 +39,6 @@ axios.interceptors.response.use(function (response) {
     }
 
     Message.error(res.msg)
-    return Promise.reject(res)
   } else {
     // alert(res.msg)
     Message.error(res.msg || res.message)
@@ -55,6 +56,24 @@ Vue.use(VueLazyLoad, {
 Vue.prototype.$message = Message
 // cascader 级联选择器
 Vue.use(Cascader)
+// 网页加载进度条及配置
+Vue.use(LoadingBar)
+
+LoadingBar.config({
+  color: '#409EFF',
+  failedColor: '#F56C6C',
+  height: 2
+})
+Vue.prototype.$Loading = LoadingBar
+
+router.beforeEach((to, from, next) => {
+  LoadingBar.start()
+  next()
+})
+
+router.afterEach(route => {
+  LoadingBar.finish()
+})
 
 new Vue({
   router,
