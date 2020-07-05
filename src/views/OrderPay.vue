@@ -69,7 +69,7 @@ export default {
   data () {
     return {
       orders: [], // 订单详情
-      orderId: this.$route.query.orderNu, // 订单号
+      orderId: this.$route.query.orderNo, // 订单号
       addressInfo: '', // 订单地址
       showDetail: false, // 是否显示详情，
       payType: '', // 支付方式 1：支付宝 2：微信

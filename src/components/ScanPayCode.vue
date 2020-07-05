@@ -23,7 +23,7 @@ export default {
     close () {
       this.$emit('close')
     }
-  }w
+  }
 }
 
 </script>
