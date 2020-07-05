@@ -10,7 +10,7 @@ import Order from './views/Order'
 import OrderList from './views/OrderList'
 import OrderConfirm from './views/OrderConfirm'
 import OrderPay from './views/OrderPay'
-import AliPay from './views/AliPay'
+import AliPay from '@/views/Alipay'
 
 Vue.use(Router)
 
