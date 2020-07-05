@@ -18,7 +18,7 @@
           <div class="item-detail" v-show="showDetail">
             <div class="item">
               <div class="detail-title">订单号：</div>
-              <div class="detail-info theme-color">{{orderNu}}</div>
+              <div class="detail-info theme-color">{{orderId}}</div>
             </div>
             <div class="item">
               <div class="detail-title">收货信息：</div>
@@ -50,21 +50,32 @@
         </div>
       </div>
     </div>
+
+    <scan-pay-code
+      @close="closeQRCode"
+      :img="QRCodeImg"
+      v-show="showQRCode"
+    />
   </div>
 </template>
 <script>
+import ScanPayCode from '@/components/ScanPayCode'
+import QRCode from 'qrcode'
 export default {
   name: 'order-pay',
+  components: {
+    ScanPayCode
+  },
   data () {
     return {
       orders: [], // 订单详情
-      orderNu: this.$route.query.orderNu, // 订单号
+      orderId: this.$route.query.orderNu, // 订单号
       addressInfo: '', // 订单地址
       showDetail: false, // 是否显示详情，
-      payType: ''// 支付方式 1：支付宝 2：微信
+      payType: '', // 支付方式 1：支付宝 2：微信
+      showQRCode: false, // 是否显示微信支付扫码弹框
+      QRCodeImg: ''// 微信支付二维码
     }
-  },
-  components: {
   },
   mounted () {
     this.getOrderDetail()
@@ -72,7 +83,7 @@ export default {
   methods: {
     // 获取订单信息
     getOrderDetail () {
-      this.axios.get(`/orders/${this.orderNu}`).then((res) => {
+      this.axios.get(`/orders/${this.orderId}`).then((res) => {
         let item = res.shippingVo
         this.orders = res
         this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`
@@ -80,8 +91,29 @@ export default {
     },
     pay (type) {
       if (type == 1) {
-        window.open('/order/alipay?orderId=' + this.orderNu, '_blank')
+        window.open('/order/alipay?orderId=' + this.orderId, '_blank')
+      } else {
+        this.axios.post('/pay', {
+          orderId: this.orderId,
+          orderName: 'Vue 商城', // 扫码支付时订单名称
+          amount: 0.01, // 单位元
+          payType: 2 // 1支付宝，2微信
+        }).then((res) => {
+          //
+          this.showQRCode = true
+          QRCode.toDataURL(res.content)
+            .then(url => {
+              this.QRCodeImg = url
+            })
+            .catch(err => {
+              console.error(err)
+              this.$message.error(err)
+            })
+        })
       }
+    },
+    closeQRCode () {
+      this.showQRCode = false
     }
   }
 }
