@@ -46,8 +46,6 @@ export default {
     getCartCount () {
       this.axios.get('/carts/products/sum').then((res) => {
         // save cart num to vuex
-        console.log(res)
-
         this.$store.dispatch('saveCartCount', res)
       })
     }
