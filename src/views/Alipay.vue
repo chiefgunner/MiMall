@@ -1,5 +1,10 @@
 <template>
   <div class="ali-pay">
+    <order-header title="订单支付">
+      <template v-slot:tip>
+        <span>请认证核对订单信息</span>
+      </template>
+    </order-header>
     <loadding></loadding>
     <div class="content" v-html="content"></div>
   </div>
@@ -7,10 +12,11 @@
 
 <script>
 import Loadding from '@/components/Loadding'
+import OrderHeader from '@/components/OrderHeader'
 export default {
   name: 'alipay',
   components: {
-    Loadding
+    Loadding, OrderHeader
   },
   data () {
     return {

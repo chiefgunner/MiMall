@@ -1,5 +1,10 @@
 <template>
   <div class="order-pay">
+    <order-header title="订单支付">
+      <template v-slot:tip>
+        <span>请认证核对订单信息</span>
+      </template>
+    </order-header>
     <div class="wrapper">
       <div class="container">
         <div class="order-wrap">
@@ -75,11 +80,13 @@
 import ScanPayCode from '@/components/ScanPayCode'
 import QRCode from 'qrcode'
 import Modal from '@/components/Modal'
+import OrderHeader from '@/components/OrderHeader.vue'
 export default {
   name: 'order-pay',
   components: {
     ScanPayCode,
-    Modal
+    Modal,
+    OrderHeader
   },
   data () {
     return {
