@@ -43,6 +43,10 @@ axios.interceptors.response.use(function (response) {
     Message.error(res.msg || res.message)
     return Promise.reject(res)
   }
+}, (error) => {
+  let res = error.response
+  Message.error(res.data.message)
+  return Promise.reject(error)
 })
 //
 Vue.config.productionTip = false

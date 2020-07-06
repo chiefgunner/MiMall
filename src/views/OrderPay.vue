@@ -56,15 +56,30 @@
       :img="QRCodeImg"
       v-show="showQRCode"
     />
+    <modal
+      :showModal="showPayModal"
+      title="确认支付"
+      btnType="3"
+      sureText="查看订单"
+      cancelText="未支付"
+      @cancel="showPayModal=false"
+      @submit="goOrderList"
+    >
+      <template v-slot:body>
+        <p>是否已支付该订单</p>
+      </template>
+    </modal>
   </div>
 </template>
 <script>
 import ScanPayCode from '@/components/ScanPayCode'
 import QRCode from 'qrcode'
+import Modal from '@/components/Modal'
 export default {
   name: 'order-pay',
   components: {
-    ScanPayCode
+    ScanPayCode,
+    Modal
   },
   data () {
     return {
@@ -74,7 +89,9 @@ export default {
       showDetail: false, // 是否显示详情，
       payType: '', // 支付方式 1：支付宝 2：微信
       showQRCode: false, // 是否显示微信支付扫码弹框
-      QRCodeImg: ''// 微信支付二维码
+      QRCodeImg: '', // 微信支付二维码
+      showPayModal: false, // 是否支付确认弹框
+      T: ''// 定时器
     }
   },
   mounted () {
@@ -100,10 +117,11 @@ export default {
           payType: 2 // 1支付宝，2微信
         }).then((res) => {
           //
-          this.showQRCode = true
           QRCode.toDataURL(res.content)
             .then(url => {
+              this.showQRCode = true
               this.QRCodeImg = url
+              this.loopOrderStatus()
             })
             .catch(err => {
               console.error(err)
@@ -114,6 +132,23 @@ export default {
     },
     closeQRCode () {
       this.showQRCode = false
+      // 确认弹框
+      this.showPayModal = true
+      clearInterval(this.T)
+    },
+    goOrderList () {
+      this.$router.push('/order/list')
+    },
+    loopOrderStatus () {
+      this.T = setInterval(() => {
+        this.axios.get(`/orders/${this.orderId}`).then((res) => {
+          if (res.status == 20) {
+            //
+            clearInterval(this.T)
+            this.goOrderList()
+          }
+        })
+      }, 1000)
     }
   }
 }
