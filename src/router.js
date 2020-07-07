@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home'
-import Login from '@/views/Login'
+// import Login from '@/views/Login'
 import Index from './views/Index'
-import Product from './views/Product'
-import Detail from './views/Detail'
+// import Product from './views/Product'
+// import Detail from './views/Detail'
 import Cart from './views/Cart'
 import Order from './views/Order'
 import OrderList from './views/OrderList'
@@ -32,19 +32,19 @@ export default new Router({
         {
           path: '/product/:id',
           name: 'product',
-          component: Product
+          component: () => import(/* webpackChunkName: "product" */ './views/Product.vue')
         },
         {
           path: '/detail/:id',
           name: 'detail',
-          component: Detail
+          component: () => import(/* webpackChunkName: "detail" */ './views/Detail.vue')
         }
       ]
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
     },
     {
       path: '/cart',
