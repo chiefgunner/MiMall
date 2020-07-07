@@ -176,6 +176,8 @@ export default {
       this.allChecked = res.selectedAll
       this.cartTotalPrice = res.cartTotalPrice
       this.checkedNum = this.list.filter((item) => item.productSelected).length
+      // 修改 vux
+      this.$store.dispatch('saveCartCount', res.cartTotalQuantity || 0)
     }
   }
 }

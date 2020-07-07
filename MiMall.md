@@ -166,6 +166,7 @@ import mapState from 'vuex'
 computed:{
   //...
   ...mapState(['username','...'])
+  //this.username => this.$store.state.username
 }
 ```
 

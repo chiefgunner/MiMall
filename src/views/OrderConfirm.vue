@@ -162,6 +162,7 @@
 <script>
 import Modal from './../components/Modal'
 import OrderHeader from '@/components/OrderHeader.vue'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'order-confirm',
   data () {
@@ -185,7 +186,11 @@ export default {
     this.getAddressList()
     this.getCartList()
   },
+  computed: {
+    ...mapState(['cartCount'])
+  },
   methods: {
+    ...mapActions(['saveCartCount']),
     getAddressList () {
       this.axios.get('/shippings').then((res) => {
         this.list = res.list
@@ -284,6 +289,22 @@ export default {
       this.axios.post('/orders', {
         shippingId: item.id
       }).then((res) => {
+        // 修改购物车数量
+        /**
+         *1、直接减去选定的数量
+            (1)、this.$store.dispatch('saveCartCount',this.$store.state.cartCount - this.count)
+            (2)、import {mapState,mapActions} from vux
+                this.saveCartCount(this.cartCount - this.count)
+          2、动态请求购物车数量接口
+            getCartCount () {
+              this.axios.get('/carts/products/sum').then((res) => {
+                // save cart num to vuex
+                this.$store.dispatch('saveCartCount', res)
+              })
+            }
+         */
+        // this.$store.dispatch('saveCartCount', this.$store.state.cartCount - this.count)
+        this.saveCartCount(this.cartCount - this.count)
         this.$router.push({
           path: '/order/pay',
           query: {
