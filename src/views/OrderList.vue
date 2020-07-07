@@ -8,6 +8,8 @@
     <div class="wrapper">
       <div class="container">
         <div class="order-box">
+          <!-- loadding -->
+          <loadding v-show="loadding"></loadding>
           <div class="order" v-for="(order,index) in list" :key="index">
             <div class="order-title">
               <div class="item-info fl">
@@ -46,6 +48,7 @@
             </div>
           </div>
         </div>
+        <no-data v-show="!loadding && list.length==0"></no-data>
       </div>
     </div>
   </div>
@@ -53,14 +56,19 @@
 
 <script>
 import OrderHeader from '@/components/OrderHeader.vue'
+import Loadding from '@/components/Loadding'
+import NoData from '@/components/NoData'
 export default {
   name: 'order-list',
   components: {
-    OrderHeader
+    OrderHeader,
+    Loadding,
+    NoData
   },
   data () {
     return {
-      list: []// 订单列表
+      list: [], // 订单列表
+      loadding: true// loadding
     }
   },
   mounted () {
@@ -70,6 +78,9 @@ export default {
     getList () {
       this.axios.get('/orders').then(res => {
         this.list = res.list
+        this.loadding = false
+      }).catch(() => {
+        this.loadding = false
       })
     },
     goPay (orderNo) {
