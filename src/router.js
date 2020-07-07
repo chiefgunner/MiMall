@@ -1,16 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home'
-import Login from '@/views/Login'
 import Index from './views/Index'
-import Product from './views/Product'
-import Detail from './views/Detail'
-import Cart from './views/Cart'
-import Order from './views/Order'
-import OrderList from './views/OrderList'
-import OrderConfirm from './views/OrderConfirm'
-import OrderPay from './views/OrderPay'
-import AliPay from './views/Alipay'
 
 Vue.use(Router)
 
@@ -32,49 +23,49 @@ export default new Router({
         {
           path: '/product/:id',
           name: 'product',
-          component: Product
+          component: () => import(/* webpackChunkName: "product" */ './views/Product.vue')
         },
         {
           path: '/detail/:id',
           name: 'detail',
-          component: Detail
+          component: () => import(/* webpackChunkName: "detail" */ './views/Detail.vue')
         }
       ]
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
     },
     {
       path: '/cart',
       name: 'cart',
-      component: Cart
+      component: () => import(/* webpackChunkName: "cart" */ './views/Cart.vue')
     },
     {
       path: '/order',
       name: 'order',
-      component: Order,
+      component: () => import(/* webpackChunkName: "order" */ './views/Order.vue'),
       children: [
         {
           path: 'list',
           name: 'order-list',
-          component: OrderList
+          component: () => import(/* webpackChunkName: "orderlist" */ './views/OrderList.vue')
         },
         {
           path: 'confirm',
           name: 'order-confirm',
-          component: OrderConfirm
+          component: () => import(/* webpackChunkName: "orderconfirm" */ './views/OrderConfirm.vue')
         },
         {
           path: 'pay',
           name: 'order-pay',
-          component: OrderPay
+          component: () => import(/* webpackChunkName: "orderpay" */ './views/OrderPay.vue')
         },
         {
           path: 'alipay',
           name: 'alipay',
-          component: AliPay
+          component: () => import(/* webpackChunkName: "alipay" */ './views/Alipay.vue')
         }
       ]
     }
