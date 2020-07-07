@@ -55,6 +55,9 @@
             :total="total"
             @current-change="handleChange">
           </el-pagination>
+          <div class="load-more" v-show="false">
+            <el-button type="primary" :loading="loadding" @click="loadMore">加载更多</el-button>
+          </div>
         </div>
         <no-data v-show="!loadding && list.length==0"></no-data>
       </div>
@@ -66,23 +69,23 @@
 import OrderHeader from '@/components/OrderHeader.vue'
 import Loadding from '@/components/Loadding'
 import NoData from '@/components/NoData'
-import { Pagination } from 'element-ui'
+import { Pagination, Button } from 'element-ui'
 export default {
   name: 'order-list',
   components: {
     OrderHeader,
     Loadding,
     NoData,
-    [Pagination.name]: Pagination
+    [Pagination.name]: Pagination,
+    [Button.name]: Button
   },
   data () {
     return {
       list: [], // 订单列表
-      loadding: true, // loadding
+      loadding: false, // loadding
       pageSize: 10, // 每页数量
       total: 0, // 总页数
-      pageNum: 1, // 当前页码数
-      s: ''
+      pageNum: 1 // 当前页码数
     }
   },
   mounted () {
@@ -90,11 +93,14 @@ export default {
   },
   methods: {
     getList () {
+      this.loadding = true
       this.axios.get('/orders', {
         params: {
+          pageSize: this.pageSize,
           pageNum: this.pageNum
         }
       }).then(res => {
+        // this.list = this.list.concat(res.list)//
         this.list = res.list
         this.total = res.total
         this.loadding = false
@@ -104,6 +110,10 @@ export default {
     },
     handleChange (num) {
       this.pageNum = num
+      this.getList()
+    },
+    loadMore () {
+      this.pageNum++
       this.getList()
     },
     goPay (orderNo) {
