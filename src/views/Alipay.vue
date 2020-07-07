@@ -5,18 +5,18 @@
         <span>请认证核对订单信息</span>
       </template>
     </order-header>
-    <loadding></loadding>
+    <loading></loading>
     <div class="content" v-html="content"></div>
   </div>
 </template>
 
 <script>
-import Loadding from '@/components/Loadding'
+import Loading from '@/components/Loading'
 import OrderHeader from '@/components/OrderHeader'
 export default {
   name: 'alipay',
   components: {
-    Loadding, OrderHeader
+    Loading, OrderHeader
   },
   data () {
     return {

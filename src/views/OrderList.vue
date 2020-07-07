@@ -8,8 +8,8 @@
     <div class="wrapper">
       <div class="container">
         <div class="order-box">
-          <!-- loadding -->
-          <loadding v-show="loadding"></loadding>
+          <!-- loading -->
+          <loading v-show="loading&&false"></loading>
           <div class="order" v-for="(order,index) in list" :key="index">
             <div class="order-title">
               <div class="item-info fl">
@@ -47,19 +47,31 @@
               </div>
             </div>
           </div>
+          <!-- 分页器 -->
           <el-pagination
             class="pagination"
             background
             layout="prev, pager, next"
             :page-size="pageSize"
             :total="total"
-            @current-change="handleChange">
+            @current-change="handleChange"
+            v-show="false"
+            >
           </el-pagination>
-          <div class="load-more" v-show="false">
-            <el-button type="primary" :loading="loadding" @click="loadMore">加载更多</el-button>
+          <!-- 加载更多 -->
+          <div class="load-more" v-show="hasNextPage&&false">
+            <el-button type="primary" :loading="loading" @click="loadMore">加载更多</el-button>
+          </div>
+          <!-- 滚动加载 -->
+          <div class="scroll-more"
+            v-infinite-scroll="scrollMore"
+            infinite-scroll-disabled="busy"
+            infinite-scroll-distance="97"
+          >
+            <img src="/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-show="loading">
           </div>
         </div>
-        <no-data v-show="!loadding && list.length==0"></no-data>
+        <no-data v-show="!loading && list.length==0"></no-data>
       </div>
     </div>
   </div>
@@ -67,25 +79,32 @@
 
 <script>
 import OrderHeader from '@/components/OrderHeader.vue'
-import Loadding from '@/components/Loadding'
+import Loading from '@/components/Loading'
 import NoData from '@/components/NoData'
 import { Pagination, Button } from 'element-ui'
+import infiniteScroll from 'vue-infinite-scroll'
 export default {
   name: 'order-list',
   components: {
     OrderHeader,
-    Loadding,
+    Loading,
     NoData,
     [Pagination.name]: Pagination,
     [Button.name]: Button
   },
+  directives: {
+    infiniteScroll
+  },
   data () {
     return {
       list: [], // 订单列表
-      loadding: false, // loadding
+      loadingInit: true, // 第一次加载时效果
+      loading: false, // loading
       pageSize: 10, // 每页数量
       total: 0, // 总页数
-      pageNum: 1 // 当前页码数
+      pageNum: 1, // 当前页码数
+      busy: false, // 是否触发滚动加载
+      hasNextPage: true// 是否有下一页
     }
   },
   mounted () {
@@ -93,7 +112,8 @@ export default {
   },
   methods: {
     getList () {
-      this.loadding = true
+      this.loading = true
+      this.busy = true
       this.axios.get('/orders', {
         params: {
           pageSize: this.pageSize,
@@ -103,18 +123,52 @@ export default {
         // this.list = this.list.concat(res.list)//
         this.list = res.list
         this.total = res.total
-        this.loadding = false
+        this.hasNextPage = res.hasNextPage
+        this.loading = false
+        this.busy = false
       }).catch(() => {
-        this.loadding = false
+        this.loading = false
       })
     },
+    // 分页器
     handleChange (num) {
       this.pageNum = num
       this.getList()
     },
+    // 加载更多
     loadMore () {
       this.pageNum++
       this.getList()
+    },
+    // 滚动加载
+    scrollMore () {
+      this.busy = true
+      setTimeout(() => {
+        this.pageNum++
+        this.getScrollList()
+        // this.busy = false
+      }, 500)
+    },
+    getScrollList () {
+      console.log('scroll')
+
+      this.loading = true
+      this.axios.get('/orders', {
+        params: {
+          pageSize: this.pageSize,
+          pageNum: this.pageNum
+        }
+      }).then(res => {
+        this.list = this.list.concat(res.list)
+        this.total = res.total
+        this.loading = false
+        if (res.hasNextPage) {
+          this.busy = false
+        } else {
+          this.hasNextPage = false
+          this.busy = true
+        }
+      })
     },
     goPay (orderNo) {
       // 三种路由跳转方式
