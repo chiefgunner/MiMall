@@ -47,6 +47,14 @@
               </div>
             </div>
           </div>
+          <el-pagination
+            class="pagination"
+            background
+            layout="prev, pager, next"
+            :page-size="pageSize"
+            :total="total"
+            @current-change="handleChange">
+          </el-pagination>
         </div>
         <no-data v-show="!loadding && list.length==0"></no-data>
       </div>
@@ -58,17 +66,23 @@
 import OrderHeader from '@/components/OrderHeader.vue'
 import Loadding from '@/components/Loadding'
 import NoData from '@/components/NoData'
+import { Pagination } from 'element-ui'
 export default {
   name: 'order-list',
   components: {
     OrderHeader,
     Loadding,
-    NoData
+    NoData,
+    [Pagination.name]: Pagination
   },
   data () {
     return {
       list: [], // 订单列表
-      loadding: true// loadding
+      loadding: true, // loadding
+      pageSize: 10, // 每页数量
+      total: 0, // 总页数
+      pageNum: 1, // 当前页码数
+      s: ''
     }
   },
   mounted () {
@@ -76,12 +90,21 @@ export default {
   },
   methods: {
     getList () {
-      this.axios.get('/orders').then(res => {
+      this.axios.get('/orders', {
+        params: {
+          pageNum: this.pageNum
+        }
+      }).then(res => {
         this.list = res.list
+        this.total = res.total
         this.loadding = false
       }).catch(() => {
         this.loadding = false
       })
+    },
+    handleChange (num) {
+      this.pageNum = num
+      this.getList()
     },
     goPay (orderNo) {
       // 三种路由跳转方式
