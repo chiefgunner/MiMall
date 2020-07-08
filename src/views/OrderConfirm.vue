@@ -108,7 +108,7 @@
       title="新增确认"
       btnType="1"
       :showModal="showEditModal"
-      @cancel="showEditModal=false"
+      @cancle="showEditModal=false"
       @submit="submitAddress"
     >
       <template v-slot:body>
@@ -150,7 +150,7 @@
       title="删除确认"
       btnType="1"
       :showModal="showDelModal"
-      @cancel="showDelModal=false"
+      @cancle="showDelModal=false"
       @submit="submitAddress"
     >
       <template v-slot:body>
