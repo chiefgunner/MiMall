@@ -104,7 +104,7 @@
       btnType="1"
       modalType="middle" v-bind:showModal="showModal"
       @submit="submit"
-      @cancel="cancel"
+      @cancle="cancle"
     >
       <template v-slot:body>
         <p>商品添加成功</p>
@@ -257,7 +257,7 @@ export default {
     submit () {
       this.$router.push('/cart')
     },
-    cancel () {
+    cancle () {
       this.showModal = false
     },
     addCart (id) {
