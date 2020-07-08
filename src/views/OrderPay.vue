@@ -66,8 +66,8 @@
       title="确认支付"
       btnType="3"
       sureText="查看订单"
-      cancelText="未支付"
-      @cancel="showPayModal=false"
+      cancleText="未支付"
+      @cancle="showPayModal=false"
       @submit="goOrderList"
     >
       <template v-slot:body>

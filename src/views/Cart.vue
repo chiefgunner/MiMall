@@ -65,10 +65,10 @@
       title="提示"
       btnType="3"
       sureText="确定"
-      cancelText="取消"
+      cancleText="取消"
       :showModal="show"
       @submit="submit"
-      @cancel="show=false"
+      @cancle="show=false"
     >
       <template v-slot:body>
         <p>确认删除该商品?</p>
