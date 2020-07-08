@@ -28,7 +28,7 @@
       padding: 0 25px;
       background-color: $colorJ;
       .icon-close{
-        @include positionImg(absolute,23px,25px,14px,14px,'/imgs/icon-close.png');
+        @include positionImg(absolute,23px,25px,14px,14px,'https://txcdn.chiefgunner.com/mi/imgs/icon-close.png');
         transition: transform 0.5;
         &:hover{
           transform: scale(1.7);

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="container">
-      <router-link to="/index"><img src="/imgs/login-logo.png" alt=""></router-link>
+      <router-link to="/index"><img src="https://txcdn.chiefgunner.com/mi/imgs/login-logo.png" alt=""></router-link>
     </div>
     <div class="wrapper">
       <div class="container">
@@ -109,7 +109,7 @@ export default {
     }
   }
   .wrapper{
-    background:url('/imgs/login-bg.jpg') no-repeat center;
+    background:url('https://txcdn.chiefgunner.com/mi/imgs/login-bg.jpg') no-repeat center;
     .container{
       height: 576px;
       position: relative;

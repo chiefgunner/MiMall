@@ -10,11 +10,11 @@
                 <ul v-for="(item,i) in menuList" v-bind:key="i">
                   <li v-for="(sub,j) in item" v-bind:key="j">
                     <!-- <a v-bind:href="sub?'/product/'+sub.id:''">
-                      <img :src="sub?sub.img:'/imgs/item-box-1.png'" alt="">
+                      <img :src="sub?sub.img:'https://txcdn.chiefgunner.com/mi/imgs/item-box-1.png'" alt="">
                       {{sub?sub.name:'小米9'}}
                     </a> -->
                     <router-link :to="sub?'/product/'+sub.id:''">
-                      <img :src="sub?sub.img:'/imgs/item-box-1.png'" alt="">
+                      <img :src="sub?sub.img:'https://txcdn.chiefgunner.com/mi/imgs/item-box-1.png'" alt="">
                       {{sub?sub.name:'小米9'}}
                     </router-link>
                   </li>
@@ -65,7 +65,7 @@
       </div>
       <div class="banner">
         <router-link to="/product/30">
-          <img src="/imgs/banner-1.png" alt="">
+          <img src="https://txcdn.chiefgunner.com/mi/imgs/banner-1.png" alt="">
         </router-link>
       </div>
     </div>
@@ -75,7 +75,7 @@
         <div class="wrapper">
           <div class="banner-left">
             <router-link to="/product/35">
-              <img src="/imgs/mix-alpha.jpg" alt="">
+              <img src="https://txcdn.chiefgunner.com/mi/imgs/mix-alpha.jpg" alt="">
             </router-link>
           </div>
           <div class="list-box">
@@ -160,42 +160,42 @@ export default {
       slideList: [
         {
           id: '42',
-          img: '/imgs/slider/slide-1.jpg'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/slider/slide-1.jpg'
         },
         {
           id: '45',
-          img: '/imgs/slider/slide-2.jpg'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/slider/slide-2.jpg'
         },
         {
           id: '46',
-          img: '/imgs/slider/slide-3.jpg'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/slider/slide-3.jpg'
         },
         {
           id: '43',
-          img: '/imgs/slider/slide-4.jpg'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/slider/slide-4.jpg'
         },
         {
           id: '44',
-          img: '/imgs/slider/slide-1.jpg'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/slider/slide-1.jpg'
         }
       ],
       menuList: [
         [
           {
             id: 30,
-            img: '/imgs/item-box-1.png',
+            img: 'https://txcdn.chiefgunner.com/mi/imgs/item-box-1.png',
             name: '小米CC9'
           }, {
             id: 31,
-            img: '/imgs/item-box-2.png',
+            img: 'https://txcdn.chiefgunner.com/mi/imgs/item-box-2.png',
             name: '小米8青春版'
           }, {
             id: 32,
-            img: '/imgs/item-box-3.jpg',
+            img: 'https://txcdn.chiefgunner.com/mi/imgs/item-box-3.jpg',
             name: 'Redmi K20 Pro'
           }, {
             id: 33,
-            img: '/imgs/item-box-4.jpg',
+            img: 'https://txcdn.chiefgunner.com/mi/imgs/item-box-4.jpg',
             name: '移动4G专区'
           }
         ],
@@ -204,16 +204,16 @@ export default {
       adsList: [
         {
           id: 33,
-          img: '/imgs/ads/ads-1.png'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/ads/ads-1.png'
         }, {
           id: 48,
-          img: '/imgs/ads/ads-2.jpg'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/ads/ads-2.jpg'
         }, {
           id: 45,
-          img: '/imgs/ads/ads-3.png'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/ads/ads-3.png'
         }, {
           id: 47,
-          img: '/imgs/ads/ads-4.jpg'
+          img: 'https://txcdn.chiefgunner.com/mi/imgs/ads/ads-4.jpg'
         }
       ],
       phoneList: [[1, 1, 1, 1], [1, 1, 1, 1]],
@@ -300,7 +300,7 @@ export default {
               color:$colorG;
               em{
                 content:'';
-                @include bgImg(10px,15px,'/imgs/icon-arrow.png');
+                @include bgImg(10px,15px,'https://txcdn.chiefgunner.com/mi/imgs/icon-arrow.png');
                 position: absolute;
                 top:17.5px;
                 right:30px;
@@ -454,7 +454,7 @@ export default {
                   font-weight:bold;
                   cursor:pointer;
                   &:after{
-                    @include bgImg(22px,22px,'/imgs/icon-cart-hover.png');
+                    @include bgImg(22px,22px,'https://txcdn.chiefgunner.com/mi/imgs/icon-cart-hover.png');
                     content:'';
                     vertical-align: middle;
                     margin-left: 6px;

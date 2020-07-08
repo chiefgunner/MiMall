@@ -29,11 +29,11 @@
       <div class="item-swiper">
         <swiper :options="swiperOption">
           <!-- slides -->
-          <swiper-slide><img src="/imgs/product/gallery-2.png" alt=""></swiper-slide>
-          <swiper-slide><img src="/imgs/product/gallery-3.png" alt=""></swiper-slide>
-          <swiper-slide><img src="/imgs/product/gallery-4.png" alt=""></swiper-slide>
-          <swiper-slide><img src="/imgs/product/gallery-5.jpg" alt=""></swiper-slide>
-          <swiper-slide><img src="/imgs/product/gallery-6.jpg" alt=""></swiper-slide>
+          <swiper-slide><img src="https://txcdn.chiefgunner.com/mi/imgs/product/gallery-2.png" alt=""></swiper-slide>
+          <swiper-slide><img src="https://txcdn.chiefgunner.com/mi/imgs/product/gallery-3.png" alt=""></swiper-slide>
+          <swiper-slide><img src="https://txcdn.chiefgunner.com/mi/imgs/product/gallery-4.png" alt=""></swiper-slide>
+          <swiper-slide><img src="https://txcdn.chiefgunner.com/mi/imgs/product/gallery-5.jpg" alt=""></swiper-slide>
+          <swiper-slide><img src="https://txcdn.chiefgunner.com/mi/imgs/product/gallery-6.jpg" alt=""></swiper-slide>
           <!-- Optional controls -->
           <div class="swiper-pagination"  slot="pagination"></div>
           <!-- <div class="swiper-button-prev" slot="button-prev"></div>
@@ -51,7 +51,7 @@
           <div class="overlay" v-show="showSlide"></div>
           <div class="video" :class="{'slide':showSlide}">
             <span class="icon-close" @click="showVideo"></span>
-            <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
+            <video src="https://txcdn.chiefgunner.com/mi/imgs/product/video.mp4" muted autoplay controls="controls"></video>
           </div>
         </div> -->
         <!-- 第二种实现方式 -->
@@ -60,7 +60,7 @@
           <div class="overlay" v-show="slideClass=='slideDown'"></div>
           <div class="video" :class="slideClass">
             <span class="icon-close" @click="showVideo2('up')"></span>
-            <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
+            <video src="https://txcdn.chiefgunner.com/mi/imgs/product/video.mp4" muted autoplay controls="controls"></video>
           </div>
         </div> -->
         <!-- 改进版 -->
@@ -69,7 +69,7 @@
           <div class="overlay"></div>
           <div class="video" :class="slideClass">
             <span class="icon-close" @click="showVideo3('up')"></span>
-            <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
+            <video src="https://txcdn.chiefgunner.com/mi/imgs/product/video.mp4" muted autoplay controls="controls"></video>
           </div>
         </div>
 
@@ -179,7 +179,7 @@ export default {
   }
   .container{
     .item-bg{
-      background:url('/imgs/product/product-bg-1.png') no-repeat center;
+      background:url('https://txcdn.chiefgunner.com/mi/imgs/product/product-bg-1.png') no-repeat center;
       height: 718px;
       text-align: center;
       h2{
@@ -211,12 +211,12 @@ export default {
       }
     }
     .item-bg-2{
-      background:url(/imgs/product/product-bg-2.png) no-repeat center;
+      background:url(https://txcdn.chiefgunner.com/mi/imgs/product/product-bg-2.png) no-repeat center;
       height:480px;
       background-size:1226px 397px;
     }
     .item-bg-3{
-      background:url(/imgs/product/product-bg-3.png) no-repeat center;
+      background:url(https://txcdn.chiefgunner.com/mi/imgs/product/product-bg-3.png) no-repeat center;
       height:638px;
       background-size:cover;
     }
@@ -247,7 +247,7 @@ export default {
         margin-bottom:58px;
       }
       .video-bg{
-        background:url('/imgs/product/gallery-1.png') no-repeat center;
+        background:url('https://txcdn.chiefgunner.com/mi/imgs/product/gallery-1.png') no-repeat center;
         background-size:cover;
         width:1226px;
         height:540px;
@@ -306,7 +306,7 @@ export default {
             position:absolute;
             top:20px;
             right:20px;
-            @include bgImg(20px,20px,'/imgs/icon-close.png');
+            @include bgImg(20px,20px,'https://txcdn.chiefgunner.com/mi/imgs/icon-close.png');
             cursor:pointer;
             z-index:11;
             &:hover{

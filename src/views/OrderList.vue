@@ -68,7 +68,7 @@
             infinite-scroll-disabled="busy"
             infinite-scroll-distance="97"
           >
-            <img src="/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-show="loading">
+            <img src="https://txcdn.chiefgunner.com/mi/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-show="loading">
           </div>
         </div>
         <no-data v-show="!loading && list.length==0"></no-data>
