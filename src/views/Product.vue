@@ -146,12 +146,19 @@ export default {
     },
     showVideo3 (val) {
       this.slideClass = val === 'down' ? 'slideDown' : 'slideUp'
+      let video = document.getElementsByTagName('video')[0]
 
       // 弹出层打开后，禁止页面滚动
       if (val === 'down') {
+        video.muted = false// 是否静音 false
+        video.play()// 播放
+
         this.top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         document.documentElement.style.overflow = 'hidden'
       } else {
+        // 关闭视频
+        video.pause()
+
         document.documentElement.style.overflow = 'scroll'
         window.parent.scrollTo(0, this.top)
         setTimeout(() => {

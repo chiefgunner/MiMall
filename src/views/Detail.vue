@@ -114,6 +114,7 @@ export default {
         selected: true
       }).then((res = { cartProductVoList: '' }) => {
         this.saveCartCount(res.cartTotalQuantity)
+        this.$message.success('添加成功')
         // this.$store.dispatch('saveCartCount',res.cartTotalQuantity)
       })
     }

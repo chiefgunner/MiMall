@@ -362,3 +362,20 @@ list.some((item)=>item.selected)
 //every 判断是否全部满足 return boolean
 list.every((item)=>item.selected)
 ```
+
+
+## 项目部署
+`nginx` 代理设置
+```bash
+  location /api/ {
+    proxy_pass http://mall-pre.springboot.cn/;
+  }
+```
+[HTML5 History 模式](https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90)
+
+`nginx`
+```bash
+location / {
+  try_files $uri $uri/ /index.html;
+}
+```
