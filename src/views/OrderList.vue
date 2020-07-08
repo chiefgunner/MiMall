@@ -150,8 +150,6 @@ export default {
       }, 500)
     },
     getScrollList () {
-      console.log('scroll')
-
       this.loading = true
       this.axios.get('/orders', {
         params: {

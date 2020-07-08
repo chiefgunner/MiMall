@@ -131,7 +131,6 @@ export default {
               this.loopOrderStatus()
             })
             .catch(err => {
-              console.error(err)
               this.$message.error(err)
             })
         })
