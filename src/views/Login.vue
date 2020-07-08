@@ -54,6 +54,14 @@ export default {
     ...mapActions(['saveUsername']),
     login () {
       let { username, password } = this
+      if (!username) {
+        this.$message.error('请输入用户名')
+        return false
+      }
+      if (!password) {
+        this.$message.error('请输入密码')
+        return false
+      }
       this.axios.post('/user/login', {
         username,
         password
