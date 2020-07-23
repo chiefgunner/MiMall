@@ -7,24 +7,28 @@
       <div class="container">
         <div class="login-form">
           <h3>
-            <span class="checked">账号登陆</span>
+            <span class="checked">账号注册</span>
             <span class="sep-line">|</span>
-            <span>扫码登录</span>
+            <router-link to="/login">
+              <span>账号登录</span>
+            </router-link>
           </h3>
           <div class="input">
-            <input type="text" placeholder="请输入账号" v-model="username">
+            <input type="text" placeholder="请输入邮箱" v-model="email">
+          </div>
+          <div class="input">
+            <input type="text" placeholder="请输入用户名" v-model="username">
           </div>
           <div class="input">
             <input type="password" placeholder="请输入密码" v-model="password">
           </div>
           <div class="btn-box">
-            <a href="javascript:;" class="btn" @click="login">登录</a>
+            <a href="javascript:;" class="btn" @click="register">注册</a>
           </div>
           <div class="tips">
-            <!-- <div class="sms" @click="register">手机短信登录/注册</div> -->
             <div></div>
             <div class="reg">
-              <router-link to="/register">立即注册</router-link>
+              <router-link to="/login">立即登录</router-link>
               <span>|</span>
               忘记密码？
             </div>
@@ -45,20 +49,29 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 export default {
-  name: 'login',
+  name: 'register',
   data () {
     return {
       username: '',
       password: '',
+      email: '',
       userId: ''
     }
   },
   methods: {
-    ...mapActions(['saveUsername']),
-    login () {
-      let { username, password } = this
+    register () {
+      let { email, username, password } = this
+      if (!email) {
+        this.$message.error('请输入邮箱')
+        return false
+      }
+      let reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+      if (!reg.test(email)) {
+        this.$message.error('邮箱格式错误')
+        return false
+      }
       if (!username) {
         this.$message.error('请输入用户名')
         return false
@@ -67,44 +80,16 @@ export default {
         this.$message.error('请输入密码')
         return false
       }
-      this.axios.post('/user/login', {
-        username,
-        password
-      }).then((res) => {
-        //
-        this.userId = res.id
-        // 用户信息保存 vuex
-        // this.$store.dispatch('saveUsername', res.username)
-        this.saveUsername(res.username)
 
-        // 将用户信息保存到 cookie 中
-        // this.$cookie.set('userId', res.id, { expires: '1M' })// 过期时间 1 个月
-        this.$cookie.set('userId', res.id, { expires: 'Session' })
-        this.$router.push({
-          name: 'index',
-          params: {
-            from: 'login'
-          }
-        })
-        // this.$router.push('/index')
-        // query => /index?from=login
-        // this.$router.push({
-        //   path: '/index',
-        //   query: {
-        //     from: 'login'
-        //   }
-        // })
-      })
-    },
-    register () {
       this.axios.post('/user/register', {
-        username: 'chiefgunner',
-        password: '123456',
-        email: 'chiefgunner@163.com'
+        username,
+        password,
+        email
       }).then(() => {
         //
         // alert('success')
         this.$message.success('success')
+        this.$router.push('/login')
       })
     }
   }
@@ -147,6 +132,12 @@ export default {
           .sep-line{
             margin:0 32px;
           }
+          span:last-child{
+            cursor: pointer;
+          }
+          a{
+            color: #333333;
+          }
         }
         .input{
           display: inline-block;
@@ -181,7 +172,7 @@ export default {
           .reg{
             color:#999999;
             a{
-              color:#999999;
+              color: #999999;
             }
             span{
               margin:0 7px;
