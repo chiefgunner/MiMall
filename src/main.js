@@ -33,7 +33,8 @@ axios.interceptors.response.use(function (response) {
     return res.result || res.data// result 为腾讯地图map数据
   } else if (res.status === 10) {
     if (path !== '/index' && path !== '/login') {
-      window.location.href = '/login'
+      // window.location.href = '/login'
+      router.push('/login')
     }
 
     Message.error(res.msg)
